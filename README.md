@@ -1,6 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
+date: 2018-10-12
 output:
   md_document:
     variant: markdown_github
