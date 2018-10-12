@@ -22,7 +22,7 @@ This package is under active development and we are in the process of submitting
 
 For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use an analytic approximation to the family-wise error rate to quickly compute a genome-wide significance threshold for our study. 
 
-Suppose you are conducting an admixture mapping study in an admixed population with 6 generations since admixture and markers spaced every 0.2 cM (on average) across 22 chromosomes of total length 3500 cM. To estimate the p-value threshold which will control the family-wise error rate for this study at the 0.05 level, use the following command:
+Suppose you are conducting an admixture mapping study in an admixed population with 2 ancestral populations, 6 generations since admixture, and markers spaced every 0.2 cM (on average) across 22 chromosomes of total length 3500 cM. To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, use the following command:
 
 
 ```r
