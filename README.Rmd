@@ -1,4 +1,6 @@
 ---
+title: STEAM
+author: Kelsey Grinde
 output:
   md_document:
     variant: markdown_github
@@ -13,8 +15,6 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
-
-**Author:** Kelsey Grinde
 
 # Introduction
 

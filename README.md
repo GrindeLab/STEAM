@@ -1,4 +1,6 @@
 ---
+title: STEAM
+author: Kelsey Grinde
 output:
   md_document:
     variant: markdown_github
@@ -7,8 +9,6 @@ output:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-
-**Author:** Kelsey Grinde
 
 # Introduction
 
