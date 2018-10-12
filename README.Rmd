@@ -2,8 +2,6 @@
 output:
   md_document:
     variant: markdown_github
-author: Kelsey Grinde
-title: Significance Threshold Estimation for Admixture Mapping (STEAM)
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -15,6 +13,8 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
+
+**Author:** Kelsey Grinde
 
 # Introduction
 

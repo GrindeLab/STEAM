@@ -2,13 +2,13 @@
 output:
   md_document:
     variant: markdown_github
-author: Kelsey Grinde
-title: Significance Threshold Estimation for Admixture Mapping (STEAM)
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
+
+**Author:** Kelsey Grinde
 
 # Introduction
 
@@ -27,7 +27,7 @@ Suppose you are conducting an admixture mapping study in an admixed population w
 
 ```r
 get_thresh_analytic(g = 6, delt = 0.2, L = 3500, type = "pval")
-#> [1] 1.887352e-05
+#> Error in get_thresh_analytic(g = 6, delt = 0.2, L = 3500, type = "pval"): could not find function "get_thresh_analytic"
 ```
 
 ## Test Statistic Simualtion
