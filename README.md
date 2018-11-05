@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-10-12
+date: 2018-11-05
 output:
   md_document:
     variant: markdown_github
@@ -16,6 +16,17 @@ output:
 STEAM (Significance Threshold Estimation for Admixture Mapping) is an R package which contains various functions relevant to estimating genome-wide significance thresholds for admixture mapping studies. 
 
 This package is under active development and we are in the process of submitting a manuscript which contains details regarding the methods implemented here. Please stay tuned for future updates!
+
+# R Installation
+
+To install this package, open an R session and run the following commands:
+
+
+```r
+##install.packages("devtools") # only run this line if you do not already have the devtools package installed
+library(devtools)
+install_github("kegrinde/STEAM")
+```
 
 # Examples
 
