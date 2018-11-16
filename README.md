@@ -13,17 +13,25 @@ output:
 
 # Introduction
 
-STEAM (Significance Threshold Estimation for Admixture Mapping) is an R package which contains various functions relevant to estimating genome-wide significance thresholds for admixture mapping studies. 
+*STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package which contains various functions relevant to estimating genome-wide significance thresholds for admixture mapping studies. 
 
-This package is under active development and we are in the process of submitting a manuscript which contains details regarding the methods implemented here. Please stay tuned for future updates!
+**This package is under active development, so please stay tuned for future updates!**
 
-# R Installation
+# Citation
 
-To install this package, open an R session and run the following commands:
+If you use *STEAM*, please cite the following article:
+
+Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. (TBD). Genome-wide significance thresholds for admixture mapping studies. *(This manuscript is currently under review. Citation information will be updated once published.)* 
+
+# Installation
+
+This package is free to use and is covered under the MIT license. For more details, see [here](\link[STEAM]{LICENSE}) and [here](https://opensource.org/licenses/MIT).
+
+To install *STEAM*, run the following commands in `R`:
 
 
 ```r
-##install.packages("devtools") # only run this line if you do not already have the devtools package installed
+##install.packages("devtools") # run this line if you have not yet installed the devtools package
 library(devtools)
 install_github("kegrinde/STEAM")
 ```
@@ -39,7 +47,7 @@ Suppose you are conducting an admixture mapping study in an admixed population w
 
 ```r
 get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval")
-#> [1] 1.875811e-05
+#> Error in get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval"): could not find function "get_thresh_analytic"
 ```
 
 ## Test Statistic Simualtion
@@ -60,13 +68,7 @@ example_props$pop2 <- 1 - example_props$pop1
 # get p-value threshold
 set.seed(1)
 get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
-#> $threshold
-#>          95% 
-#> 2.692619e-05 
-#> 
-#> $ci
-#>         2.5%        97.5% 
-#> 7.357901e-05 1.981598e-06
+#> Error in get_thresh_simstat(g = 6, map = example_map, props = example_props, : could not find function "get_thresh_simstat"
 ```
 
 In practice, we should increase the number of repetitions to a much larger number (we recommend 10,000). This will increase the computation time but yields more reliable significance threshold estimates.
