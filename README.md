@@ -1,7 +1,5 @@
 ---
 title: STEAM
-author: Kelsey Grinde
-date: 2018-11-16
 output:
   md_document:
     variant: markdown_github
@@ -11,9 +9,13 @@ output:
 
 
 
-# Introduction
+# STEAM: Significance Threshold Estimation for Admixture Mapping
 
-*STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package which contains various functions relevant to estimating genome-wide significance thresholds for admixture mapping studies. 
+Author: Kelsey E. Grinde
+
+Last Updated: 2018-11-16
+
+*STEAM* is an R package for estimating genome-wide significance thresholds for admixture mapping studies. 
 
 **This package is under active development, so please stay tuned for future updates!**
 
@@ -25,7 +27,7 @@ Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. (TBD). Genome-wi
 
 # Installation
 
-This package is free to use and is covered under the MIT license. For more details, see [here](\link[STEAM]{LICENSE}) and [here](https://opensource.org/licenses/MIT).
+This package is free to use and is covered under the MIT license. For more details, see LICENSE file and [here](https://opensource.org/licenses/MIT).
 
 To install *STEAM*, run the following commands in `R`:
 
@@ -36,9 +38,16 @@ library(devtools)
 install_github("kegrinde/STEAM")
 ```
 
-# Examples
+# Using *STEAM* to Estimate Significance Thresholds
 
-## Analytic Approximation
+In Grinde et al. (2018), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
+
+1. **Analytic Approximation:** applicable to admixed populations with \underline{2 ancestral populations}
+2. **Test Statistic Simulation:** applicable to admixed populations with \underline{2 or more ancestral populations}
+
+## Examples
+
+### Analytic Approximation
 
 For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use an analytic approximation to the family-wise error rate to quickly compute a genome-wide significance threshold for our study. 
 
@@ -50,7 +59,7 @@ get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval")
 #> Error in get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval"): could not find function "get_thresh_analytic"
 ```
 
-## Test Statistic Simualtion
+### Test Statistic Simualtion
 
 For admixed populations with more than two ancestral populations (e.g., Hispanics/Latinos), the analytic approximation approach is not applicable. Instead, we can simulate admixture mapping test statitics from their joint asymptotic distribution (under the null) to estimate a genome-wide significance threshold for our study. This approach is applicable for admixed populations with any number of ancestral populations ($K \ge 2$).
 
