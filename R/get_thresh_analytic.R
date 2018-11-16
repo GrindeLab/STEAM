@@ -1,7 +1,8 @@
 #' Significance Threshold Estimation for Admixture Mapping using Analytic Approximation
 #'
 #' Compute genome-wide significance (test statistic or p-value) threshold for admixture
-#' mapping using analytic approximation to the family-wise error rate.
+#' mapping using analytic approximation to the family-wise error rate. For more details,
+#' see Grinde et al. (2018).
 #'
 #' @param g the generations since admixture.
 #' @param delt the average spacing (cM per marker) between markers.
@@ -18,6 +19,8 @@
 #' get_thresh_analytic(g=6, delt=0.2, L=3500, type="stat") # get test statistic threshold
 #'
 #' @seealso \code{\link[stats]{uniroot}} for finding roots of functions
+#'
+#' @importFrom stats uniroot pnorm
 #'
 #' @export
 

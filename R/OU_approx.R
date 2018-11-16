@@ -18,8 +18,9 @@
 #' @examples
 #' OU_approx(4.277817, 0.01*6, 0.2, 3500, 22, 0.05, "two-sided")
 #'
+#' @importFrom stats pnorm dnorm
+#'
 #' @export
-
 OU_approx <- function(z,beta,Delta,length,chr,center,test){
   # code courtesy of Siegmund and Yakir (2007)
   d <- switch(test,"two-sided"=2,"one-sided"=1)

@@ -10,7 +10,7 @@
 #' The function get_thresh_analytic() estimates significance thresholds
 #' using an analytic approximation to the family-wise error rate.
 #'
-#' The function get_thresh_statsim() estimates significance thresholds by
+#' The function get_thresh_simstat() estimates significance thresholds by
 #' simulating test statistics from their asymptotic distribution.
 #'
 #' The function get_g() estimates the number of generations since admixture from

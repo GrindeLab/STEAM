@@ -4,6 +4,8 @@
 #'
 #' @param x the numeric value you want to be evaluated.
 #'
+#' @importFrom stats pnorm dnorm
+#'
 #' @return A single number.
 
 nu <- function(x){
