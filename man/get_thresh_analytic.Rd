@@ -4,17 +4,13 @@
 \alias{get_thresh_analytic}
 \title{Significance Threshold Estimation for Admixture Mapping using Analytic Approximation}
 \usage{
-get_thresh_analytic(g, delt, L, chr = 22, alpha = 0.05,
-  type = "pval", searchint = c(1.96, 8))
+get_thresh_analytic(g, map, alpha = 0.05, type = "pval",
+  searchint = c(1.96, 8))
 }
 \arguments{
 \item{g}{the generations since admixture.}
 
-\item{delt}{the average spacing (cM per marker) between markers.}
-
-\item{L}{the total length (cM) of the region.}
-
-\item{chr}{the number of chromosomes; default is 22.}
+\item{map}{data frame with m rows and at least 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers}
 
 \item{alpha}{the level for family-wise error rate control; default is 0.05.}
 
@@ -31,8 +27,8 @@ mapping using analytic approximation to the family-wise error rate. For more det
 see Grinde et al. (2018).
 }
 \examples{
-get_thresh_analytic(g=6, delt=0.2, L=3500) # get p-value threshold
-get_thresh_analytic(g=6, delt=0.2, L=3500, type="stat") # get test statistic threshold
+get_thresh_analytic(g = 6, map = example_map) # get p-value threshold
+get_thresh_analytic(g = 6, map = example_map, type = "stat") # get test statistic threshold
 
 }
 \seealso{

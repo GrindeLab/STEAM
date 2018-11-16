@@ -13,8 +13,8 @@
 #' @return A single nummber indicating the estimated significance threshold (either test statistic or p-value).
 #'
 #' @examples
-#' get_thresh_analytic(g=6, delt=0.2, L=3500) # get p-value threshold
-#' get_thresh_analytic(g=6, delt=0.2, L=3500, type="stat") # get test statistic threshold
+#' get_thresh_analytic(g = 6, map = example_map) # get p-value threshold
+#' get_thresh_analytic(g = 6, map = example_map, type = "stat") # get test statistic threshold
 #'
 #' @seealso \code{\link[stats]{uniroot}} for finding roots of functions
 #'
@@ -23,14 +23,14 @@
 #' @export
 get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c(1.96,8)){
   # calculate number of chromosomes
-  chr <- length(unique(example_map$chr))
+  nchr <- length(unique(map$chr))
   # calculate distances between consecutive markers on same chromosome
-  delt.mat <- sapply(1:chr, function(x) diff(subset(example_map, chr == x)$cM))
+  delt.mat <- sapply(1:nchr, function(x) diff(map$cM[map$chr == x]))
   # calculate marker density (average) and total length
   delt <- mean(delt.mat)
   L <- sum(delt.mat)
   # get test stat threshold
-  Z <- uniroot(OU_approx, interval = searchint, beta = 0.01*g, Delta = delt, length = L, chr = chr, center = alpha, test = 'two-sided')$root
+  Z <- uniroot(OU_approx, interval = searchint, beta = 0.01*g, Delta = delt, length = L, chr = nchr, center = alpha, test = 'two-sided')$root
   # if type = 'pval', return pval instead
   if(type=='pval'){
     p <- 2*pnorm(Z,lower.tail=F)
