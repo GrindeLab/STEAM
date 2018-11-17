@@ -1,5 +1,7 @@
 ---
 title: STEAM
+author: Kelsey Grinde
+date: 2018-11-16
 output:
   md_document:
     variant: markdown_github
@@ -10,10 +12,6 @@ output:
 
 
 # STEAM: Significance Threshold Estimation for Admixture Mapping
-
-Author: Kelsey E. Grinde
-
-Last Updated: 2018-11-16
 
 *STEAM* is an R package for estimating genome-wide significance thresholds for admixture mapping studies. 
 
@@ -27,7 +25,7 @@ Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. (TBD). Genome-wi
 
 # Installation
 
-This package is free to use and is covered under the MIT license. For more details, see LICENSE file and [here](https://opensource.org/licenses/MIT).
+This package is free to use, under the terms of the MIT License. For more details, see LICENSE and [here](https://opensource.org/licenses/MIT).
 
 To install *STEAM*, run the following commands in `R`:
 
@@ -40,10 +38,19 @@ install_github("kegrinde/STEAM")
 
 # Using *STEAM* to Estimate Significance Thresholds
 
-In Grinde et al. (2018), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
+In Grinde et al. (TBD), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
 
-1. **Analytic Approximation:** applicable to admixed populations with \underline{2 ancestral populations}
-2. **Test Statistic Simulation:** applicable to admixed populations with \underline{2 or more ancestral populations}
+1. **Analytic Approximation:** applicable to admixed populations with 2 ancestral populations
+2. **Test Statistic Simulation:** applicable to admixed populations with 2 or more ancestral populations
+
+To run either approach, we need:
+
+- A `map` file containing, at minimum, the chromosome number and genetic position (in centimorgans) of each marker being tested
+- An estimate of `g`, the number of generations since admixture (see section below for our suggestions on how to estimate this number)
+
+The test statistic simulation approach additionally requires:
+
+- Estimated admixture proportions (`props`) for each individual. Also known as global ancestry proportions, these proportions indicate the total (genome-wide) proportion of genetic material inherited from each ancestral population.
 
 ## Examples
 
@@ -56,7 +63,7 @@ Suppose you are conducting an admixture mapping study in an admixed population w
 
 ```r
 get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval")
-#> Error in get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval"): could not find function "get_thresh_analytic"
+#> [1] 1.875811e-05
 ```
 
 ### Test Statistic Simualtion
@@ -67,17 +74,16 @@ Suppose we are conducting an admixture mapping study in an admixed population wi
 
 
 ```r
-# create example map
-example_map <- data.frame(cM = rep(seq(0.2, 160, 0.2), times = 22), chr = rep(1:22, each = 800))
-
-# create example data frame of admixture props
-example_props <- data.frame(pop1 = runif(1000, 0, 1))
-example_props$pop2 <- 1 - example_props$pop1
-
 # get p-value threshold
 set.seed(1)
 get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
-#> Error in get_thresh_simstat(g = 6, map = example_map, props = example_props, : could not find function "get_thresh_simstat"
+#> $threshold
+#>          95% 
+#> 2.692619e-05 
+#> 
+#> $ci
+#>         2.5%        97.5% 
+#> 7.357901e-05 1.981598e-06
 ```
 
 In practice, we should increase the number of repetitions to a much larger number (we recommend 10,000). This will increase the computation time but yields more reliable significance threshold estimates.

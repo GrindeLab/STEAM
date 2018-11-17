@@ -6,7 +6,7 @@
 #' the threshold that controls the empirical family-wise error rate.
 #'
 #' @param g the generations since admixture.
-#' @param map data frame with m rows and 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers
+#' @param map data frame with m rows and at least 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers
 #' @param props data frame (n x K) of admixture proportions, where n = no. individuals and K = no. ancestral populations
 #' @param nreps the number of repetitions for the simulation study; default is 10000.
 #' @param alpha the level for family-wise error rate control; default is 0.05.

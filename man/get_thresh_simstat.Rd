@@ -10,7 +10,7 @@ get_thresh_simstat(g, map, props, nreps = 10000, alpha = 0.05,
 \arguments{
 \item{g}{the generations since admixture.}
 
-\item{map}{data frame with m rows and 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers}
+\item{map}{data frame with m rows and at least 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers}
 
 \item{props}{data frame (n x K) of admixture proportions, where n = no. individuals and K = no. ancestral populations}
 
