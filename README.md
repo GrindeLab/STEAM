@@ -40,42 +40,70 @@ install_github("kegrinde/STEAM")
 
 In Grinde et al. (TBD), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
 
-1. **Analytic Approximation:** applicable to admixed populations with 2 ancestral populations
-2. **Test Statistic Simulation:** applicable to admixed populations with 2 or more ancestral populations
+- **Analytic Approximation:** applicable to admixed populations with 2 ancestral populations
+- **Test Statistic Simulation:** applicable to admixed populations with 2 or more ancestral populations
 
-To run either approach, we need:
+To run either approach, we first need to:
 
-- A `map` file containing, at minimum, the chromosome number and genetic position (in centimorgans) of each marker being tested
-- An estimate of `g`, the number of generations since admixture (see section below for our suggestions on how to estimate this number)
+1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
+2. Estimate the admixture proportions for each individual, representing the total proportion of genetic material inherited from each ancestral population. (There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.)
+3. Estimate `g`, the number of generations since admixture. (*STEAM* also provides code for estimating `g` from local ancestry calls.)
 
-The test statistic simulation approach additionally requires:
+## Example: 2 Ancestral Populations 
 
-- Estimated admixture proportions (`props`) for each individual. Also known as global ancestry proportions, these proportions indicate the total (genome-wide) proportion of genetic material inherited from each ancestral population.
+For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use either approach (analytic approximation or test statistic simulation) to estimate the genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
 
-## Examples
-
-### Analytic Approximation
-
-For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use an analytic approximation to the family-wise error rate to quickly compute a genome-wide significance threshold for our study. 
-
-Suppose you are conducting an admixture mapping study in an admixed population with 2 ancestral populations, 6 generations since admixture, and markers spaced every 0.2 cM (on average) across 22 chromosomes of total length 3520 cM. To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, use the following command:
+Suppose we have markers spaced every 0.2 cM across 22 chromosomes, each approx. 160 cM in length. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
 
 
 ```r
-get_thresh_analytic(g = 6, delt = 0.2, L = 3520, type = "pval")
-#> [1] 1.875811e-05
+head(example_map)
+#>    cM chr
+#> 1 0.2   1
+#> 2 0.4   1
+#> 3 0.6   1
+#> 4 0.8   1
+#> 5 1.0   1
+#> 6 1.2   1
+```
+
+Suppose as well that the individuals in our sample have admixture proportions that are uniformly distributed from 0 to 1. We store these proportions in a data frame called `example_props`:
+
+
+```r
+head(example_props)
+#>        pop1       pop2
+#> 1 0.2655087 0.73449134
+#> 2 0.3721239 0.62787610
+#> 3 0.5728534 0.42714664
+#> 4 0.9082078 0.09179221
+#> 5 0.2016819 0.79831807
+#> 6 0.8983897 0.10161032
+```
+
+We can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 6. 
+
+We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, can use either the analytic approximation or test statistic simulation approach.
+
+### Analytic Approximation
+
+To implement the analytic approximation approach, use the following command:
+
+
+```r
+get_thresh_analytic(g = 6, map = example_map, type = "pval")
+#> [1] 1.878339e-05
 ```
 
 ### Test Statistic Simualtion
 
-For admixed populations with more than two ancestral populations (e.g., Hispanics/Latinos), the analytic approximation approach is not applicable. Instead, we can simulate admixture mapping test statitics from their joint asymptotic distribution (under the null) to estimate a genome-wide significance threshold for our study. This approach is applicable for admixed populations with any number of ancestral populations ($K \ge 2$).
+To implement the test statistic simulation approach, we need to specify the number of replications for the simulation study (`nreps`). Computation time increases with the number of replications, so for the purposes of this example we choose a small number of reps. In practice, we recommend using a much larger number number of replications (the *STEAM* default is 10000). 
 
-Suppose we are conducting an admixture mapping study in an admixed population with 2 ancestral populations, 6 generations since admixture, and markers spaced every 0.2 cM across 22 chromomomes, each of length 160 cM (for a total length of 3520 cM). Suppose as well that the admixture proportions in this population are unifiromly distributed. To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, we can use the following command:
+The `R` command for the test statistic simulation approach looks like this:
 
 
 ```r
-# get p-value threshold
-set.seed(1)
+set.seed(1) # set seed for reproducibility
 get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
 #> $threshold
 #>          95% 
@@ -86,7 +114,50 @@ get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
 #> 7.357901e-05 1.981598e-06
 ```
 
-In practice, we should increase the number of repetitions to a much larger number (we recommend 10,000). This will increase the computation time but yields more reliable significance threshold estimates.
+Note that this approach provides both an estimate of the significance threshold and a 95\% bootstrap confidence interval for that threshold.
+
+## Example: 3 Ancestral Populations 
+
+For an admixture mapping study in an admixed population with three or more ancestral populations (e.g., Hispanics/Latinos), the analytic approximation is no longer applicable. However, we can still use the test statistic simulation approach to estimate the genome-wide significance threshold for our study. 
+
+Suppose, as in the previous example, we have markers spaced every 0.2 cM across 22 chromosomes, each approx. 160 cM in length. As before, we store the information about genetic position and chromosome for each marker in a data frame called `example_map`.
+
+Now, suppose that the individuals have genetic material contributed from three ancestral populations. We estimate admixture proportions and store them in a data frame called `example_props_K3`:
+
+
+```r
+head(example_props_K3)
+#>           X1         X2        X3
+#> 1 0.25846023 0.55702151 0.1845183
+#> 2 0.38393973 0.47137248 0.1446878
+#> 3 0.05335819 0.75017684 0.1964650
+#> 4 0.58736485 0.21390984 0.1987253
+#> 5 0.46737805 0.36255274 0.1700692
+#> 6 0.49133804 0.07424451 0.4344174
+```
+
+As in the case of 2 ancestral populations, can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 10. 
+
+To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, we run the following command:
+
+
+```r
+set.seed(1) # set seed for reproducibility
+get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, nreps = 50)
+#> $threshold
+#>          95% 
+#> 1.392104e-06 
+#> 
+#> $ci
+#>         2.5%        97.5% 
+#> 9.505305e-06 9.187866e-08
+```
+
+# Important Considerations
+
+## Admixture Mapping Model Choice
+
+Our multiple testing correction procedures assume that admixture mapping is being performed using a marginal regression approach, regressing the trait on local ancestry for each marker and each ancestral population one-by-one. Importantly, these regression models should include admixture proportions as covariates. For more details, see Grinde et al. (TBD).
 
 ## Estimating the Number of Generations since Admixture
 
