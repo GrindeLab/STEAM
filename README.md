@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-11-16
+date: 2018-11-18
 output:
   md_document:
     variant: markdown_github
@@ -47,13 +47,13 @@ To run either approach, we first need to:
 
 1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
 2. Estimate the admixture proportions for each individual, representing the total proportion of genetic material inherited from each ancestral population. (There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.)
-3. Estimate `g`, the number of generations since admixture. (*STEAM* also provides code for estimating `g` from local ancestry calls.)
+3. Estimate `g`, the number of generations since admixture. (We recommend you use *STEAM* for this step; see below.)
 
 ## Example: 2 Ancestral Populations 
 
 For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use either approach (analytic approximation or test statistic simulation) to estimate the genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
 
-Suppose we have markers spaced every 0.2 cM across 22 chromosomes, each approx. 160 cM in length. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
+Suppose we have markers spaced every 0.2 cM across 22 chromosomes. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
 
 
 ```r
@@ -72,18 +72,18 @@ Suppose as well that the individuals in our sample have admixture proportions th
 
 ```r
 head(example_props)
-#>        pop1       pop2
-#> 1 0.2655087 0.73449134
-#> 2 0.3721239 0.62787610
-#> 3 0.5728534 0.42714664
-#> 4 0.9082078 0.09179221
-#> 5 0.2016819 0.79831807
-#> 6 0.8983897 0.10161032
+#>         pop1       pop2
+#> 1 0.08882543 0.91117457
+#> 2 0.83211719 0.16788281
+#> 3 0.90515135 0.09484865
+#> 4 0.87833723 0.12166277
+#> 5 0.93060775 0.06939225
+#> 6 0.60744741 0.39255259
 ```
 
 We can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 6. 
 
-We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, can use either the analytic approximation or test statistic simulation approach.
+We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, we can use either the analytic approximation or test statistic simulation approach.
 
 ### Analytic Approximation
 
@@ -120,7 +120,7 @@ Note that this approach provides both an estimate of the significance threshold 
 
 For an admixture mapping study in an admixed population with three or more ancestral populations (e.g., Hispanics/Latinos), the analytic approximation is no longer applicable. However, we can still use the test statistic simulation approach to estimate the genome-wide significance threshold for our study. 
 
-Suppose, as in the previous example, we have markers spaced every 0.2 cM across 22 chromosomes, each approx. 160 cM in length. As before, we store the information about genetic position and chromosome for each marker in a data frame called `example_map`.
+Suppose, as in the previous example, we have markers spaced every 0.2 cM across 22 chromosomes. As before, we store the information about genetic position and chromosome for each marker in a data frame called `example_map`.
 
 Now, suppose that the individuals have genetic material contributed from three ancestral populations. We estimate admixture proportions and store them in a data frame called `example_props_K3`:
 
