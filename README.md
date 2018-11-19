@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-11-18
+date: 2018-11-19
 output:
   md_document:
     variant: markdown_github
@@ -136,7 +136,7 @@ head(example_props_K3)
 #> 6 0.49133804 0.07424451 0.4344174
 ```
 
-As in the case of 2 ancestral populations, can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 10. 
+As in the case of 2 ancestral populations, we can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 10. 
 
 To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, we run the following command:
 
