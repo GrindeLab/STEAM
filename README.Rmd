@@ -128,3 +128,7 @@ Our multiple testing correction procedures assume that admixture mapping is bein
 ## Estimating the Number of Generations since Admixture
 
 Coming soon!
+
+# Questions?
+
+Contact Kelsey Grinde: grindek-at-uw-dot-edu
