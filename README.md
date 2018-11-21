@@ -46,7 +46,7 @@ In Grinde et al. (TBD), we propose two approaches for estimating genome-wide sig
 To run either approach, we first need to:
 
 1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
-    - *NOTE:* If you used a local ancestry inference program that performs calling within windows (e.g., RFMix), we recommend that you use just a single marker per window.
+    - *NOTE:* If you inferred local ancestry using a program that performs calling within windows (e.g., RFMix), we recommend that you include just a single marker per window in this map file.
 2. Estimate the admixture proportions for each individual and store them in a `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
     - There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.
 3. Estimate `g`, the number of generations since admixture.
