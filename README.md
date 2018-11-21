@@ -47,8 +47,10 @@ To run either approach, we first need to:
 
 1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
     - *NOTE:* If you used a local ancestry inference program that performs calling within windows (e.g., RFMix), we recommend that you use just a single marker per window.
-2. Estimate the admixture proportions for each individual, representing the total proportion of genetic material inherited from each ancestral population. (There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.)
-3. Estimate `g`, the number of generations since admixture. (We recommend you use *STEAM* for this step; see below.)
+2. Estimate the admixture proportions for each individual and store them in a `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
+    - There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.
+3. Estimate `g`, the number of generations since admixture.
+    - We recommend that you use *STEAM* for this step; for more details, see the "Estimating the Number of Generations..." section below.
 
 ## Example: 2 Ancestral Populations 
 
