@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-11-19
+date: 2018-11-21
 output:
   md_document:
     variant: markdown_github
@@ -11,9 +11,9 @@ output:
 
 
 
-# STEAM: Significance Threshold Estimation for Admixture Mapping
+# Significance Threshold Estimation for Admixture Mapping
 
-*STEAM* is an R package for estimating genome-wide significance thresholds for admixture mapping studies. 
+*STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package for estimating genome-wide significance thresholds for admixture mapping studies. 
 
 **This package is under active development, so please stay tuned for future updates!**
 
@@ -46,6 +46,7 @@ In Grinde et al. (TBD), we propose two approaches for estimating genome-wide sig
 To run either approach, we first need to:
 
 1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
+    - *NOTE:* If you used a local ancestry inference program that performs calling within windows (e.g., RFMix), we recommend that you use just a single marker per window.
 2. Estimate the admixture proportions for each individual, representing the total proportion of genetic material inherited from each ancestral population. (There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.)
 3. Estimate `g`, the number of generations since admixture. (We recommend you use *STEAM* for this step; see below.)
 
