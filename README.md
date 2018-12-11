@@ -15,8 +15,6 @@ output:
 
 *STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package for estimating genome-wide significance thresholds for admixture mapping studies. 
 
-**This package is under active development, so please stay tuned for future updates!**
-
 # Citation
 
 If you use *STEAM*, please cite the following article:
@@ -50,7 +48,7 @@ To run either approach, we first need to:
 2. Estimate the admixture proportions for each individual and store them in a `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
     - There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.
 3. Estimate `g`, the number of generations since admixture.
-    - We recommend that you use *STEAM* for this step; for more details, see the "Estimating the Number of Generations..." section below.
+    - We recommend that you use *STEAM* for this step. *NOTE:* using this approach requires that you calculate the observed correlation of local ancestry at pairs of loci in your data. For more details, see the "Estimating the Number of Generations..." section below. 
 
 ## Example: 2 Ancestral Populations 
 
@@ -84,9 +82,34 @@ head(example_props)
 #> 6 0.60744741 0.39255259
 ```
 
-We can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 6. 
+We can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. First, we need to calculate the correlation of local ancestry in our data for each pair of loci and ancestral components. We store this information in a data frame with three columns:
 
-We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, we can use either the analytic approximation or test statistic simulation approach.
+- `theta`: the recombination fraction between loci
+- `corr`: the correlation of local ancestry at those loci
+- `anc`: the pair of ancestral components being compared (`1_1` = first component (e.g., European ancestry) at both loci, `1_2` = first component (e.g., European ancestry) at one locus and second component (e.g., African ancestry) at the other locus, ...)
+
+
+```r
+head(example_corr)
+#>   theta      corr anc
+#> 1  0.00 0.9937355 1_1
+#> 2  0.01 0.9722873 1_1
+#> 3  0.02 0.9340007 1_1
+#> 4  0.03 0.9316133 1_1
+#> 5  0.04 0.8936003 1_1
+#> 6  0.05 0.8580320 1_1
+```
+
+Once we have the local ancestry correlation, we run non-linear least squares to estimate the number of generations since admixture:
+
+
+```r
+get_g(example_corr)
+#>        g 
+#> 5.971432
+```
+
+Now we are ready to estimate our genome-wide significance threshold. We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, we can use either the analytic approximation or test statistic simulation approach.
 
 ### Analytic Approximation
 
@@ -139,7 +162,25 @@ head(example_props_K3)
 #> 6 0.49133804 0.07424451 0.4344174
 ```
 
-As in the case of 2 ancestral populations, we can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. (Code will be posted soon). Suppose we estimate this value to be 10. 
+As in the case of 2 ancestral populations, we can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. We store the local ancestry correlation in the data frame `example_corr_K3` and run the function `get_g()` on this data frame to estimate `g`:
+
+
+```r
+# local ancestry correlation data frame
+head(example_corr_K3)
+#>   theta      corr anc
+#> 1  0.00 0.9937355 1_1
+#> 2  0.01 0.9433644 1_1
+#> 3  0.02 0.8797805 1_1
+#> 4  0.03 0.8553831 1_1
+#> 5  0.04 0.7983344 1_1
+#> 6  0.05 0.7464160 1_1
+
+# estimate g
+get_g(example_corr_K3)
+#>       g 
+#> 9.95628
+```
 
 To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, we run the following command:
 
@@ -156,21 +197,29 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, nreps = 
 #> 9.505305e-06 9.187866e-08
 ```
 
+Note that this threshold is more stringent than the threshold we estimated for the admixed population with 2 ancestral populations; this reflects the increased number of hypothesis tests being performed when K = 3, as well as the different distributions of admixture proportions in the two populations.
+
+
 # Important Considerations
 
 ## Admixture Mapping Model Choice
 
-Our multiple testing correction procedures assume that admixture mapping is being performed using a marginal regression approach, regressing the trait on local ancestry for each marker and each ancestral population one-by-one. Importantly, these regression models should include admixture proportions as covariates. For more details, see Grinde et al. (TBD).
+Our multiple testing correction procedures assume that admixture mapping is being performed using a marginal regression approach, regressing the trait on local ancestry for each marker and each ancestral population one-by-one. **Importantly, these regression models should include admixture proportions as covariates.** For more details, see Grinde et al. (TBD).
 
 ## Estimating the Number of Generations since Admixture
 
-We can estimate the number of generations since admixture from the observed pattern of local ancestry correlation in the data. 
+The theoretical results in Grinde et al. (TBD) demonstrate that the number of generations since admixture controls the rate of decay of local ancestry correlation curves in admixed populations. Lemma 1 provides a closed form expression for the expected correlation of local ancestry at a pair of loci, which depends on the recombination fraction between those loci and the distribution of admixture proportions in the sample. We use this result to motivate a non-linear least squares estimation procedure to estimate the number of generations since admixture (`g`) from observed local ancestry correlation. *Estimating `g` from our observed data, rather than relying on estimates from external genetic or historical studies, allows us to appropriately capture the correlation structure in our own data, which is critical for our multiple testing procedures.*
 
-First, we need to compute the correlation of local ancestry vectors at (all, or a subset of) pairs of loci in our dataset, and store the information in a data frame like the following:
+To use *STEAM* to estimate `g`, we must first calculate the observed correlation of local ancestry at pairs of loci in our data. Calculating this correlation for all possible pairs of loci is not necessary; using a representative, thinned subset of markers will suffice. Correlation should be calculated for all possible pairs of ancestral components, for example:
+
+- In an admixed population with 2 ancestral populations (African, European), there are three possible pairs of ancestral components (African at both loci, European at both loci, African at one locus and European at the other locus)
+- In an admixed population with 3 ancestral populations (African, European, Native American), there are six possible pairs of ancestral components (Afr at both loci, Eur at both loci, NAm at both loci, Afr at one and Eur at the other, Afr at one and NAm at the other, Eur at one and NAm at the other)
+
+Store this local ancestry correlation in a data frame, like the following examples:
 
 
 ```r
-# example correlation for simulated data with K = 2, g = 6
+## 2 ancestral populations ##
 head(example_corr)
 #>   theta      corr anc
 #> 1  0.00 0.9937355 1_1
@@ -179,30 +228,8 @@ head(example_corr)
 #> 4  0.03 0.9316133 1_1
 #> 5  0.04 0.8936003 1_1
 #> 6  0.05 0.8580320 1_1
-# each pair of ancestral components is represented:
-table(example_corr$anc)
-#> 
-#> 1_1 1_2 2_2 
-#>  51  51  51
-```
 
-This data frame should include three columns, named `theta`, `corr`, and `anc` (order does not matter). The `theta` column contains the recombination fraction between a pair of loci, `anc` indicates which ancestral components are being compared ($k, k'$ where $k,k' \in {1,...,K}$), and `corr` is the correlation between those local ancestry components at that pair of loci. 
-
-Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of $g$ that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$:
-
-
-```r
-# estimated g turns out close to truth (6)
-get_g(example_corr)
-#>        g 
-#> 5.971432
-```
-
-We can also use this approach to estimate the number of generations in an admixed population with three ancestral populations:
-
-
-```r
-# example correlation for simulated data with K = 3, g = 10
+## 3 ancestral populations ##
 head(example_corr_K3)
 #>   theta      corr anc
 #> 1  0.00 0.9937355 1_1
@@ -211,16 +238,48 @@ head(example_corr_K3)
 #> 4  0.03 0.8553831 1_1
 #> 5  0.04 0.7983344 1_1
 #> 6  0.05 0.7464160 1_1
+```
+
+Note that each possible pair of ancestral components is represented in these data frames:
+
+
+```r
+## 2 ancestral populations ##
+table(example_corr$anc)
+#> 
+#> 1_1 1_2 2_2 
+#>  51  51  51
+
+## 3 ancestral populations ##
 table(example_corr_K3$anc)
 #> 
 #> 1_1 1_2 1_3 2_2 2_3 3_3 
 #>  51  51  51  51  51  51
+```
 
-# estimated g turns out close to truth (10)
+This correlation data frame should include three columns, named `theta`, `corr`, and `anc` (column order does not matter, but names do):
+
+- `theta`: recombination fraction between loci
+- `anc`: indices of ancestral compoments being compared at the two loci (e.g., `1_1`, `1_2`)
+- `corr`: correlation between those local ancestry components at that pair of loci 
+
+Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of `g` that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$:
+
+
+```r
+## 2 ancestral populations ##
+get_g(example_corr)
+#>        g 
+#> 5.971432
+
+## 3 ancestral populations ##
 get_g(example_corr_K3)
 #>       g 
 #> 9.95628
 ```
+
+In both cases, the estimate (5.97, 9.96) turns out very close to the truth (6, 10).
+
 
 # Questions?
 
