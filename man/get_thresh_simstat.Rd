@@ -21,7 +21,7 @@ get_thresh_simstat(g, map, props, nreps = 10000, alpha = 0.05,
 \item{type}{the type of threshold that should be returned: \code{"stat"} for test statistic or \code{"pval"} for p-value; defaults to pval.}
 }
 \value{
-A single nummber indicating the estimated significance threshold (either test statistic or p-value).
+A single number indicating the estimated significance threshold (either test statistic or p-value).
 }
 \description{
 Compute genome-wide significance (test statistic or p-value) threshold for admixture
