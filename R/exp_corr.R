@@ -14,6 +14,8 @@
 #' exp_corr(theta = 0.2, g = 6, props = example_props, k1 = 1, k2 = 1)
 #' exp_corr(theta = 0.2, g = 6, props = example_props, k1 = 1, k2 = 2)
 #'
+#' @importFrom stats cov
+#'
 #' @export
 exp_corr <- function(theta, g, props, k1, k2){
   # restrict to desired components

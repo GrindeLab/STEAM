@@ -15,7 +15,7 @@
 #' get_g(lacorr = example_corr)
 #' get_g(lacorr = example_corr_K3)
 #'
-#' @importFrom stats nls
+#' @importFrom stats nls coef
 #'
 #' @export
 get_g <- function(lacorr, start.a = 0, start.b = 1, start.g = 10){
