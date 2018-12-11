@@ -12,7 +12,7 @@
 #' @param alpha the level for family-wise error rate control; default is 0.05.
 #' @param type the type of threshold that should be returned: \code{"stat"} for test statistic or \code{"pval"} for p-value; defaults to pval.
 #'
-#' @return A single nummber indicating the estimated significance threshold (either test statistic or p-value).
+#' @return A single number indicating the estimated significance threshold (either test statistic or p-value).
 #'
 #' @examples
 #' get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 10)
