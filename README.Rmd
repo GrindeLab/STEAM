@@ -127,7 +127,36 @@ Our multiple testing correction procedures assume that admixture mapping is bein
 
 ## Estimating the Number of Generations since Admixture
 
-Coming soon!
+We can estimate the number of generations since admixture from the observed pattern of local ancestry correlation in the data. 
+
+First, we need to compute the correlation of local ancestry vectors at (all, or a subset of) pairs of loci in our dataset, and store the information in a data frame like the following:
+
+```{r example-corr-K2}
+# example correlation for simulated data with K = 2, g = 6
+head(example_corr)
+# each pair of ancestral components is represented:
+table(example_corr$anc)
+```
+
+This data frame should include three columns, named `theta`, `corr`, and `anc` (order does not matter). The `theta` column contains the recombination fraction between a pair of loci, `anc` indicates which ancestral components are being compared ($k, k'$ where $k,k' \in {1,...,K}$), and `corr` is the correlation between those local ancestry components at that pair of loci. 
+
+Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of $g$ that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$:
+
+```{r example-g-K2}
+# estimated g turns out close to truth (6)
+get_g(example_corr)
+```
+
+We can also use this approach to estimate the number of generations in an admixed population with three ancestral populations:
+
+```{r example-g-K3}
+# example correlation for simulated data with K = 3, g = 10
+head(example_corr_K3)
+table(example_corr_K3$anc)
+
+# estimated g turns out close to truth (10)
+get_g(example_corr_K3)
+```
 
 # Questions?
 

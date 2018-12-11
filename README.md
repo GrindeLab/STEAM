@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-11-21
+date: 2018-12-11
 output:
   md_document:
     variant: markdown_github
@@ -164,7 +164,63 @@ Our multiple testing correction procedures assume that admixture mapping is bein
 
 ## Estimating the Number of Generations since Admixture
 
-Coming soon!
+We can estimate the number of generations since admixture from the observed pattern of local ancestry correlation in the data. 
+
+First, we need to compute the correlation of local ancestry vectors at (all, or a subset of) pairs of loci in our dataset, and store the information in a data frame like the following:
+
+
+```r
+# example correlation for simulated data with K = 2, g = 6
+head(example_corr)
+#>   theta      corr anc
+#> 1  0.00 0.9937355 1_1
+#> 2  0.01 0.9722873 1_1
+#> 3  0.02 0.9340007 1_1
+#> 4  0.03 0.9316133 1_1
+#> 5  0.04 0.8936003 1_1
+#> 6  0.05 0.8580320 1_1
+# each pair of ancestral components is represented:
+table(example_corr$anc)
+#> 
+#> 1_1 1_2 2_2 
+#>  51  51  51
+```
+
+This data frame should include three columns, named `theta`, `corr`, and `anc` (order does not matter). The `theta` column contains the recombination fraction between a pair of loci, `anc` indicates which ancestral components are being compared ($k, k'$ where $k,k' \in {1,...,K}$), and `corr` is the correlation between those local ancestry components at that pair of loci. 
+
+Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of $g$ that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$:
+
+
+```r
+# estimated g turns out close to truth (6)
+get_g(example_corr)
+#>        g 
+#> 5.971432
+```
+
+We can also use this approach to estimate the number of generations in an admixed population with three ancestral populations:
+
+
+```r
+# example correlation for simulated data with K = 3, g = 10
+head(example_corr_K3)
+#>   theta      corr anc
+#> 1  0.00 0.9937355 1_1
+#> 2  0.01 0.9433644 1_1
+#> 3  0.02 0.8797805 1_1
+#> 4  0.03 0.8553831 1_1
+#> 5  0.04 0.7983344 1_1
+#> 6  0.05 0.7464160 1_1
+table(example_corr_K3$anc)
+#> 
+#> 1_1 1_2 1_3 2_2 2_3 3_3 
+#>  51  51  51  51  51  51
+
+# estimated g turns out close to truth (10)
+get_g(example_corr_K3)
+#>       g 
+#> 9.95628
+```
 
 # Questions?
 
