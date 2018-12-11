@@ -257,7 +257,7 @@ get_g(example_corr_K3)
 #> 9.95628
 ```
 
-Note: in these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations.In both cases, the estimated `g` turns out very close to the truth: 5.97 and 9.96, respectively. 
+Note: in these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations). In both cases, the estimated `g` turns out very close to the truth: 5.97 and 9.96, respectively. 
 
 
 # Questions?
