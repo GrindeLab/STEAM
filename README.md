@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2018-12-11
+date: 2019-03-13
 output:
   md_document:
     variant: markdown_github
@@ -19,7 +19,7 @@ output:
 
 If you use *STEAM*, please cite the following article:
 
-Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. (TBD). Genome-wide significance thresholds for admixture mapping studies. *(This manuscript is currently under review. Citation information will be updated once published.)* 
+Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. "Genome-wide significance thresholds for admixture mapping studies." *The American Journal of Human Genetics* 104 (2019), 454-465. [https://doi.org/10.1016/j.ajhg.2019.01.008](https://doi.org/10.1016/j.ajhg.2019.01.008).
 
 # Installation
 
@@ -59,13 +59,7 @@ For an admixture mapping study in an admixed population with two ancestral popul
 
 ```r
 head(example_map)
-#>    cM chr
-#> 1 0.2   1
-#> 2 0.4   1
-#> 3 0.6   1
-#> 4 0.8   1
-#> 5 1.0   1
-#> 6 1.2   1
+#> Error in head(example_map): object 'example_map' not found
 ```
 
 **Step 2:** Suppose as well that the individuals in our sample have admixture proportions that are uniformly distributed from 0 to 1. We store these proportions in a data frame called `example_props`:
@@ -73,13 +67,7 @@ head(example_map)
 
 ```r
 head(example_props)
-#>         pop1       pop2
-#> 1 0.08882543 0.91117457
-#> 2 0.83211719 0.16788281
-#> 3 0.90515135 0.09484865
-#> 4 0.87833723 0.12166277
-#> 5 0.93060775 0.06939225
-#> 6 0.60744741 0.39255259
+#> Error in head(example_props): object 'example_props' not found
 ```
 
 **Step 3:** We can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. First, we need to calculate the correlation of local ancestry in our data for each pair of loci and ancestral components. We store this information in a data frame with three columns (`theta` = recombination fraction between loci, `corr` = observed local ancestry correlation, `anc` = indices of ancestral components being compared) called `example_corr`:
@@ -87,13 +75,7 @@ head(example_props)
 
 ```r
 head(example_corr)
-#>   theta      corr anc
-#> 1  0.00 0.9937355 1_1
-#> 2  0.01 0.9722873 1_1
-#> 3  0.02 0.9340007 1_1
-#> 4  0.03 0.9316133 1_1
-#> 5  0.04 0.8936003 1_1
-#> 6  0.05 0.8580320 1_1
+#> Error in head(example_corr): object 'example_corr' not found
 ```
 
 Once we have the local ancestry correlation, we run non-linear least squares to estimate the number of generations since admixture:
@@ -101,8 +83,7 @@ Once we have the local ancestry correlation, we run non-linear least squares to 
 
 ```r
 get_g(example_corr)
-#>        g 
-#> 5.971432
+#> Error in get_g(example_corr): could not find function "get_g"
 ```
 
 **Step 4:** Now we are ready to estimate our genome-wide significance threshold. We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level. Since we have two ancestral populations, we can use either the analytic approximation or test statistic simulation approach.
@@ -114,7 +95,7 @@ To implement the analytic approximation approach, use the following command:
 
 ```r
 get_thresh_analytic(g = 6, map = example_map, type = "pval")
-#> [1] 1.878339e-05
+#> Error in get_thresh_analytic(g = 6, map = example_map, type = "pval"): could not find function "get_thresh_analytic"
 ```
 
 ### Test Statistic Simualtion
@@ -127,13 +108,7 @@ The `R` command for the test statistic simulation approach looks like this:
 ```r
 set.seed(1) # set seed for reproducibility
 get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
-#> $threshold
-#>          95% 
-#> 2.692619e-05 
-#> 
-#> $ci
-#>         2.5%        97.5% 
-#> 7.357901e-05 1.981598e-06
+#> Error in get_thresh_simstat(g = 6, map = example_map, props = example_props, : could not find function "get_thresh_simstat"
 ```
 
 Note that this approach provides both an estimate of the significance threshold and a 95\% bootstrap confidence interval for that threshold.
@@ -149,13 +124,7 @@ For an admixture mapping study in an admixed population with three or more ances
 
 ```r
 head(example_props_K3)
-#>           X1         X2        X3
-#> 1 0.25846023 0.55702151 0.1845183
-#> 2 0.38393973 0.47137248 0.1446878
-#> 3 0.05335819 0.75017684 0.1964650
-#> 4 0.58736485 0.21390984 0.1987253
-#> 5 0.46737805 0.36255274 0.1700692
-#> 6 0.49133804 0.07424451 0.4344174
+#> Error in head(example_props_K3): object 'example_props_K3' not found
 ```
 
 **Step 3:** As in the case of 2 ancestral populations, we can use *STEAM* to estimate the number of generations since admixture (`g`) based on the observed pattern of correlation in local ancestry at pairs of markers across the genome. We store the local ancestry correlation in the data frame `example_corr_K3` and run the function `get_g()` on this data frame to estimate `g`:
@@ -164,18 +133,11 @@ head(example_props_K3)
 ```r
 # local ancestry correlation data frame
 head(example_corr_K3)
-#>   theta      corr anc
-#> 1  0.00 0.9937355 1_1
-#> 2  0.01 0.9433644 1_1
-#> 3  0.02 0.8797805 1_1
-#> 4  0.03 0.8553831 1_1
-#> 5  0.04 0.7983344 1_1
-#> 6  0.05 0.7464160 1_1
+#> Error in head(example_corr_K3): object 'example_corr_K3' not found
 
 # estimate g
 get_g(example_corr_K3)
-#>       g 
-#> 9.95628
+#> Error in get_g(example_corr_K3): could not find function "get_g"
 ```
 
 **Step 4:** To estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level, we run the following command:
@@ -184,13 +146,7 @@ get_g(example_corr_K3)
 ```r
 set.seed(1) # set seed for reproducibility
 get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, nreps = 50)
-#> $threshold
-#>          95% 
-#> 1.392104e-06 
-#> 
-#> $ci
-#>         2.5%        97.5% 
-#> 9.505305e-06 9.187866e-08
+#> Error in get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, : could not find function "get_thresh_simstat"
 ```
 
 Note that this threshold is more stringent than the threshold we estimated for the admixed population with 2 ancestral populations; this reflects the increased number of hypothesis tests being performed when K = 3, as well as the different distributions of admixture proportions in the two populations.
@@ -217,23 +173,11 @@ Store this local ancestry correlation in a data frame with three columns, as in 
 ```r
 ## 2 ancestral populations ##
 head(example_corr)
-#>   theta      corr anc
-#> 1  0.00 0.9937355 1_1
-#> 2  0.01 0.9722873 1_1
-#> 3  0.02 0.9340007 1_1
-#> 4  0.03 0.9316133 1_1
-#> 5  0.04 0.8936003 1_1
-#> 6  0.05 0.8580320 1_1
+#> Error in head(example_corr): object 'example_corr' not found
 
 ## 3 ancestral populations ##
 head(example_corr_K3)
-#>   theta      corr anc
-#> 1  0.00 0.9937355 1_1
-#> 2  0.01 0.9433644 1_1
-#> 3  0.02 0.8797805 1_1
-#> 4  0.03 0.8553831 1_1
-#> 5  0.04 0.7983344 1_1
-#> 6  0.05 0.7464160 1_1
+#> Error in head(example_corr_K3): object 'example_corr_K3' not found
 ```
 
 As mentioned above, this data frame should include three columns, named `theta`, `corr`, and `anc` (column order does not matter, but names do):
@@ -248,13 +192,11 @@ Once we have this local ancestry correlation, we use non-linear least squares to
 ```r
 ## 2 ancestral populations ##
 get_g(example_corr)
-#>        g 
-#> 5.971432
+#> Error in get_g(example_corr): could not find function "get_g"
 
 ## 3 ancestral populations ##
 get_g(example_corr_K3)
-#>       g 
-#> 9.95628
+#> Error in get_g(example_corr_K3): could not find function "get_g"
 ```
 
 Note: in these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations). In both cases, the estimated `g` turns out very close to the truth: 5.97 and 9.96, respectively. 

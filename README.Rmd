@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 If you use *STEAM*, please cite the following article:
 
-Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. (TBD). Genome-wide significance thresholds for admixture mapping studies. *(This manuscript is currently under review. Citation information will be updated once published.)* 
+Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. "Genome-wide significance thresholds for admixture mapping studies." *The American Journal of Human Genetics* 104 (2019), 454-465. [https://doi.org/10.1016/j.ajhg.2019.01.008](https://doi.org/10.1016/j.ajhg.2019.01.008).
 
 # Installation
 
