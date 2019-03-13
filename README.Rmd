@@ -41,7 +41,7 @@ install_github("kegrinde/STEAM")
 
 # Using *STEAM* to Estimate Significance Thresholds
 
-In Grinde et al. (TBD), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
+In Grinde et al. (2019), we propose two approaches for estimating genome-wide significance thresholds for admixture mapping studies:
 
 - **Analytic Approximation:** applicable to admixed populations with 2 ancestral populations
 - **Test Statistic Simulation:** applicable to admixed populations with 2 or more ancestral populations
@@ -142,11 +142,11 @@ Note that this threshold is more stringent than the threshold we estimated for t
 
 ## Admixture Mapping Model Choice
 
-Our multiple testing correction procedures assume that admixture mapping is being performed using a marginal regression approach, regressing the trait on local ancestry for each marker and each ancestral population one-by-one. **Importantly, these regression models should include admixture proportions as covariates.** For more details, see Grinde et al. (TBD).
+Our multiple testing correction procedures assume that admixture mapping is being performed using a marginal regression approach, regressing the trait on local ancestry for each marker and each ancestral population one-by-one. **Importantly, these regression models should include admixture proportions as covariates.** For more details, see Grinde et al. (2019).
 
 ## Estimating the Number of Generations since Admixture
 
-The theoretical results in Grinde et al. (TBD) demonstrate that the number of generations since admixture controls the rate of decay of local ancestry correlation curves in admixed populations. *Lemma 1* provides a closed form expression for the expected correlation of local ancestry at a pair of loci, which depends on the recombination fraction between those loci, the distribution of admixture proportions, and the generations since admixture. We use this result to motivate a non-linear least squares procedure to estimate the number of generations since admixture (`g`) from observed local ancestry correlation. **Estimating `g` from our observed data---rather than relying on estimates from external genetic or historical studies---allows us to appropriately capture the correlation structure in our own data, which is critical for our multiple testing procedures.**
+The theoretical results in Grinde et al. (2019) demonstrate that the number of generations since admixture controls the rate of decay of local ancestry correlation curves in admixed populations. *Lemma 1* provides a closed form expression for the expected correlation of local ancestry at a pair of loci, which depends on the recombination fraction between those loci, the distribution of admixture proportions, and the generations since admixture. We use this result to motivate a non-linear least squares procedure to estimate the number of generations since admixture (`g`) from observed local ancestry correlation. **Estimating `g` from our observed data---rather than relying on estimates from external genetic or historical studies---allows us to appropriately capture the correlation structure in our own data, which is critical for our multiple testing procedures.**
 
 To use *STEAM* to estimate `g`, we must first calculate the observed correlation of local ancestry at pairs of loci in our data. Calculating this correlation for all possible pairs of loci is not necessary; using a representative, thinned subset of markers will suffice. However, correlation should be calculated for all possible pairs of ancestral components:
 
