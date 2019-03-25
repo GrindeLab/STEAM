@@ -15,4 +15,8 @@ Suggests: knitr,
 VignetteBuilder: knitr
 Imports: stats,
     bootstrap,
-    mgcv
+    mgcv,
+    data.table,
+    gdsfmt,
+    SNPRelate,
+    SeqArray
