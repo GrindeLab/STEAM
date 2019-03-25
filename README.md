@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2019-03-13
+date: 2019-03-25
 output:
   md_document:
     variant: markdown_github
@@ -235,6 +235,45 @@ head(example_corr_K3)
 #> 5  0.04 0.7983344 1_1
 #> 6  0.05 0.7464160 1_1
 ```
+
+
+You are free to calculate this local ancestry correlation however you please. One option (if you are studying an admixed population with 3 ancestral populations) is to use the functions `get_corr_chr` and `combine_corr_chr` contained in this package:
+
+1. Convert local ancestry calls into SeqArray GDS files, with one file per ancestral population and chromosome (i.e., 'chr22_afr.gds' contains local ancestry calls for chromosome 22, where alleles are coded such that 1 = allele inherited from African ancestors, 0 = allele inherited from some other ancestral population)
+
+    - NOTE: if you first convert your local ancestry calls into VCF files, with one file per chromosome and ancestral population, then you can use `vcf2gds.py` in the [UW GAC TOPMed analysis pipeline][https://github.com/UW-GAC/analysis_pipeline] to convert to GDS files.
+    
+2. Run `get_corr_chr` for each chromosome
+
+
+```r
+# set up list to store results
+corr.list <- list()
+
+# loop through chromosomes
+# NOTE: we recommend that each chromosome be analyzed separately (e.g., on distinct compute nodes) and results saved, then combined later, rather than analyzing all chromosomes in a single R session
+for(i in 1:22){
+  # set up file names
+  afr.gds <- paste0('chr', i, '_afr.gds')
+  eur.gds <- paste0('chr', i, '_eur.gds')
+  nam.gds <- paste0('chr', i, '_nam.gds')
+  # run get_corr_chr
+  corr.list[[i]] <- get_corr_chr(chrom = i, map = example_map, 
+        pop1.gds = afr.gds, pop2.gds = eur.gds, pop3.gds = nam.gds)
+  # print update
+  cat('done with chromosome', i, '\n')
+}
+```
+
+3. Run `combine_corr_chr` to combine results across all chromosomes and store as a data frame in the desired format 
+
+
+```r
+# combine results across chromosomes
+corr_K3 <- combine_corr_chr(corr.list)
+```
+
+
 
 As mentioned above, this data frame should include three columns, named `theta`, `corr`, and `anc` (column order does not matter, but names do):
 
