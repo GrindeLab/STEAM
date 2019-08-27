@@ -5,7 +5,9 @@ Version: 0.1.0
 Author: Kelsey Grinde
 Maintainer: Kelsey Grinde <kgrinde@macalester.edu>
 Description: Estimate genome-wide significance thresholds for admixture
-    mapping studies. For more information about the methods, see our paper.
+    mapping studies. For more information about the methods, see our paper 
+    published in 2019 in the American Journal of Human Genetics: Grinde et 
+    al., "Genome-wide significance thresholds for admixture mapping studies".
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
