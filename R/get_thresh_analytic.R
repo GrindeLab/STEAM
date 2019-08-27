@@ -2,7 +2,7 @@
 #'
 #' Compute genome-wide significance (test statistic or p-value) threshold for admixture
 #' mapping using analytic approximation to the family-wise error rate. For more details,
-#' see Grinde et al. (2018).
+#' see Grinde et al. (2019).
 #'
 #' @param g the generations since admixture.
 #' @param map data frame with m rows and at least 2 columns ('chr' containing chromosome number and 'cM' containing genetic position in centimorgans), where m = no. markers
@@ -25,10 +25,10 @@ get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c
   # calculate number of chromosomes
   nchr <- length(unique(map$chr))
   # calculate distances between consecutive markers on same chromosome
-  delt.mat <- sapply(1:nchr, function(x) diff(map$cM[map$chr == x]))
+  delt.list <- lapply(1:nchr, function(x) diff(map$cM[map$chr == x]))
   # calculate marker density (average) and total length
-  delt <- mean(delt.mat)
-  L <- sum(delt.mat)
+  delt <- mean(unlist(delt.list))
+  L <- sum(unlist(delt.list))
   # get test stat threshold
   Z <- uniroot(OU_approx, interval = searchint, beta = 0.01*g, Delta = delt, length = L, chr = nchr, center = alpha, test = 'two-sided')$root
   # if type = 'pval', return pval instead
@@ -41,4 +41,3 @@ get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c
     cat("Error: please specify type='stat' or 'pval'.")
   }
 }
-
