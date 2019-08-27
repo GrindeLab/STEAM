@@ -24,7 +24,7 @@ A single nummber indicating the estimated significance threshold (either test st
 \description{
 Compute genome-wide significance (test statistic or p-value) threshold for admixture
 mapping using analytic approximation to the family-wise error rate. For more details,
-see Grinde et al. (2018).
+see Grinde et al. (2019).
 }
 \examples{
 get_thresh_analytic(g = 6, map = example_map) # get p-value threshold
