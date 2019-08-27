@@ -1,7 +1,7 @@
 ---
 title: STEAM
 author: Kelsey Grinde
-date: 2019-03-25
+date: 2019-08-26
 output:
   md_document:
     variant: markdown_github
@@ -301,4 +301,4 @@ Note: in these examples, we simulated local ancestry correlation for admixed pop
 
 # Questions?
 
-Contact Kelsey Grinde: grindek-at-uw-dot-edu
+Contact Kelsey Grinde: kgrinde-at-macalester-dot-edu

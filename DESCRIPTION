@@ -3,7 +3,7 @@ Type: Package
 Title: Significance Threshold Estimation for Admixture Mapping
 Version: 0.1.0
 Author: Kelsey Grinde
-Maintainer: Kelsey Grinde <grindek@uw.edu>
+Maintainer: Kelsey Grinde <kgrinde@macalester.edu>
 Description: Estimate genome-wide significance thresholds for admixture
     mapping studies. For more information about the methods, see our paper.
 License: MIT + file LICENSE
