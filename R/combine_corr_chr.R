@@ -46,4 +46,6 @@ combine_corr_chr <- function(cor.list){
   lacorr.df <- lacorr.df[,c('theta','corr','anc2')]
   names(lacorr.df) <- c('theta','corr','anc')
   return(lacorr.df)
+  
+  ### Test
 }
