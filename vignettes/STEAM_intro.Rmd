@@ -163,7 +163,7 @@ get_g(example_corr_K3)
 
 ## Analytic Approximation (get_thresh_analytic)
 
-For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use either approach (Analytic Approximation or Test Statistic Simulation) to estimate genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
+For an admixture mapping study in an admixed population with **two** ancestral populations (e.g., African Americans), we can use either approach (Analytic Approximation or Test Statistic Simulation) to estimate genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
 
 **Step 1:** Suppose we have markers spaced every 0.2 cM across 22 chromosomes. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
 
@@ -171,7 +171,7 @@ For an admixture mapping study in an admixed population with two ancestral popul
 head(example_map)
 ```
 
-More information about creating a `map` data frame can be found in **Step 1** of Section 3: Required Data Format. The data frame `example_map` can be downloaded from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data).
+More information about obtaining a `map` data frame can be found in **Step 1** of Section 3: Required Data Format. The data frame `example_map` can be downloaded from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data).
 
 **Step 2:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1: Estimating g (get_g). 
 
@@ -199,9 +199,11 @@ get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
 
 ## Test Statistic Simulation (get_thresh_simstat)
 
-### K = 2 populations
+For an admixture mapping study in an admixed population with **two or three** ancestral populations
 
-### K = 3 populations
+- stuff about example map
+- stuff about example props
+- stuff about finding g
 
 # Session Info
 
