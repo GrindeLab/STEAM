@@ -1,8 +1,8 @@
 ---
-title: "STEAMcpp Vignette"
+title: "STEAM Vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{STEAMcpp Vignette}
+  %\VignetteIndexEntry{STEAM Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(STEAMcpp)
+library(STEAM)
 ```
 
 ## An Introduction to the STEAM Package
@@ -39,9 +39,9 @@ In Grinde et. al (2019), two approaches for estimating genome-wide significance 
 - **Analytic Approximation**: applicable to admixed populations with 2 ancestral populations
 - **Test Statistic Simulation**: applicable to admixed populations with 2 or more ancestral populations (STEAM supports at most 3 ancestries)
 
-To run either approach, we need to do some preparations steps:
+To run either approach, we need to do some preparation steps:
 
-1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
+1. Create a `map` file containing, at minimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
     * NOTE: If you inferred local ancestry using a program that performs calling within windows (e.g., RFMix), we recommend that you include just a single marker per window in this map file.
   
 2. Estimate the admixture proportions for each individual and store them in a `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
