@@ -1,0 +1,69 @@
+---
+title: "STEAMcpp Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{STEAMcpp Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(STEAMcpp)
+```
+
+## An Introduction to the STEAM Package
+
+The STEAM package (Significance Threshold Estimation for Admixture Mapping) is a package for estimating genome-wide significance thresholds for admixture mapping studies.
+
+When thinking about finding the genetic variant that causes certain diseases/traits in GWAS data, a traditional approach is to use marginal regression to step over the genome and perform a hypothesis test at each location. However, with the large number of hypothesis tests in genomic data, we are often faced with the issue of multiple testing. Traditional multiple testing corrections such as Bonferroni correction (Bonferroni, 1936) tend to yield conservative thresholds with respect to controlling for family-wise error rate (FWER). The significance threshold $p < 5*10^{-8}$ has increasingly emerged as the significance threshold commonly used in genome-wide association studies (Jannot et. al, 2015). However, the prevalent significant threshold does not always ensure the best trade-off between Type I and Type II errors.
+
+Our goal is to find an appropriate significance threshold that controls the family-wise error rate. 
+
+## Theoretical Background
+
+The theoretical results implemented in the package are proposed in the following article.
+
+Grinde, K., Brown, L., Reiner, A., Thornton, T., & Browning, S. "Genome-wide significance thresholds for admixture mapping studies." The American Journal of Human Genetics 104 (2019), 454-465. https://doi.org/10.1016/j.ajhg.2019.01.008.
+
+&nbsp;
+
+In Grinde et. al (2019), two approaches for estimating genome-wide significance threshold for admixture mapping studies were proposed:
+
+- **Analytic Approximation**: applicable to admixed populations with 2 ancestral populations
+- **Test Statistic Simulation**: applicable to admixed populations with 2 or more ancestral populations (STEAM supports at most 3 ancestries)
+
+To run either approach, we need to do some preparations steps:
+
+1. Create a `map` file containing, at minimimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
+    * NOTE: If you inferred local ancestry using a program that performs calling within windows (e.g., RFMix), we recommend that you include just a single marker per window in this map file.
+  
+2. Estimate the admixture proportions for each individual and store them in a `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
+    * There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.
+  
+3. Estimate `g`, the number of generations since admixture.
+    * We recommend that you use STEAM for this step. NOTE: using this approach requires that you calculate the observed correlation of local ancestry at pairs of loci in your data. For more details, see the "Estimating the Number of Generations..." section below.
+  
+## Example: 2 ancestral origins
+
+For this example with 2 ancestral origins, we can use either analytic approximation or test statistic simulation to obtain the significance threshold. The analytic approximation is faster of the two options.
+
+Step 1: Suppose we have markers spaced every 0.2 cM across 22 chromosomes. An example of this map file is `example_map` provided by the package, which stores the information about genetic position and chromosome for each marker.
+
+```{r}
+head(example_map)
+```
+
+
+## References
+
+Bonferroni, C. (1936). Teoria statistica delle classi e calcolo delle probabilita. Pubblicazioni del R Istituto Superiore di Scienze Economiche e Commericiali di Firenze, 8, 3-62.
+
+Jannot, A. S., Ehret, G., & Perneger, T. (2015). P< 5× 10− 8 has emerged as a standard of statistical significance for genome-wide association studies. Journal of clinical epidemiology, 68(4), 460-465.
+
