@@ -1,6 +1,9 @@
 ---
 title: "An Introduction to STEAM"
-output: rmarkdown::html_vignette
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{An Introduction to STEAM}
   %\VignetteEngine{knitr::rmarkdown}
@@ -17,3 +20,160 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(STEAM)
 ```
+
+# Introduction
+
+# Installation
+
+## Bioconductor
+
+## GitHub
+
+# Required Data Format (come up with better name?)
+
+Grinde et al. (2019) proposed two approaches for estimating genome-wide significance thresholds for admixture mapping studies: Analytic Approximation (Section 4.2) and Test Statistic Simulation (Section 4.3). 
+
+To run either approach, we first need to:
+
+**Step 1:** Create a `map` file containing, at minimum, the chromosome number and genetic position (in centimorgans) of each marker being tested.
+   
+   * **NOTE:** If you inferred local ancestry using a program that performs calling within windows (e.g., RFMix), we recommend that you include just a single marker per window in this map file.
+   
+Here is an example of a map file, `example_map`, available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data):
+```{r}
+## first 6 rows of example_map ##
+head(example_map)
+```
+
+**Step 2:** Estimate the admixture proportions for each individual and store them in an `n`-by-`K` matrix, where `n` is the number of admixed individuals and `K` is the number of ancestral populations.
+   
+   * There are various ways to calculate these proportions, one of which is to calculate the genome-wide average local ancestry for each individual.
+   
+Below is an example of a matrix of admixture proportions, `example_props`, available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data). This matrix contains the admixture proportions for `n = 1000` admixed individuals and `K = 2` ancestral populations:
+```{r}
+head(example_props)
+```
+
+Similarly, `example_props_K3` in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data) is an example admixture proportions matrix for `n = 1000` admixed individuals and `K = 3` ancestral populations:
+```{r}
+head(example_props_K3)
+```
+
+
+**Step 3:** Estimate g, the number of generations since admixture.
+   
+   * We recommend that you use STEAM for this step. **NOTE:** Using this approach requires that you calculate the observed correlation of local ancestry at pairs of loci in your data. For more details, please see Section 4.1 below.
+
+# Main Functions
+
+The STEAM package contains the following main functions:
+
+| Function | Description |
+|----------|----------|
+| `get_g` | estimate the number of generations since admixture |
+| `get_thresh_analytic` | for K = 2 populations, compute genome-wide significance threshold for admixture mapping |
+| `get_thresh_simstat` | for K = 2 or K = 3 populations, compute genome-wide significance threshold for admixture mapping |
+
+`g`, the number of generations since admixture, is a required parameter for both `get_thresh_analytic` and `get_thresh_simstat`. `g` can be quickly estimated using the `get_g` function using the observed correlation of local ancestry at pairs of loci in the data. This method is described in Section 4.1 below.
+
+## Estimating g (get_g)
+
+The theoretical results in Grinde et al. (2019) demonstrate that the number of generations since admixture controls the rate of decay of local ancestry correlation curves in admixed populations. *Lemma 1* provides a closed form expression for the expected correlation of local ancestry at a pair of loci, which depends on the recombination fraction between those loci, the distribution of admixture proportions, and the generations since admixture. We use this result to motivate a non-linear least squares procedure to estimate the number of generations since admixture (`g`) from observed local ancestry correlation. 
+
+Estimating `g` from our observed data---rather than relying on estimates from external genetic or historical studies---allows us to appropriately capture the correlation structure in our own data, which is critical for our multiple testing procedures.
+
+**To use STEAM to estimate `g`, we must first calculate the observed correlation of local ancestry at pairs of loci in our data.** Calculating this correlation for all possible pairs of loci is not necessary; using a representative, thinned subset of markers will suffice. However, correlation should be calculated for all possible pairs of ancestral components:
+
+* In an admixed population with 2 ancestral populations (e.g., African, European), there are three possible pairs of ancestral components (AFR at both loci, EUR at both loci, AFR at one locus and EUR at the other locus).
+
+* In an admixed population with 3 ancestral populations (e.g., African, European, Native American), there are six possible pairs of ancestral components (AFR at both loci, EUR at both loci, NAM at both loci, AFR at one and EUR at the other, AFR at one and NAM at the other, EUR at one and NAM at the other).
+
+Store this local ancestry correlation in a data frame with three columns, as in the following examples (available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data)):
+
+```{r}
+## 2 ancestral populations ##
+head(example_corr)
+```
+
+```{r}
+## 3 ancestral populations ##
+head(example_corr_K3)
+```
+
+### Calculating Observed Local Ancestry Correlation using STEAM
+
+You are free to calculate this local ancestry correlation however you please. One option (if you are studying an admixed population with `K = 3` ancestral populations) is to use the functions `get_corr_chr` and `combine_corr_chr` contained in this package:
+
+**Step 1:** Convert local ancestry calls into SeqArray GDS files, with one file per ancestral population and chromosome (i.e., 'chr22_afr.gds' contains local ancestry calls for chromosome 22, where alleles are coded such that 1 = allele inherited from African ancestors, 0 = allele inherited from some other ancestral population).
+
+* **NOTE:** if you first convert your local ancestry calls into VCF files, with one file per chromosome and ancestral population, then you can use `vcf2gds.py` in the [UW GAC TOPMed analysis pipeline](https://github.com/UW-GAC/analysis_pipeline) to convert to GDS files.
+
+**Step 2:** Run `get_corr_chr` for each chromosome:
+
+```{r eval = FALSE}
+# set up list to store results
+corr.list <- list()
+
+# loop through chromosomes
+# NOTE: we recommend that each chromosome be analyzed separately (e.g., on 
+# distinct compute nodes) and results saved, then combined later, rather 
+# than analyzing all chromosomes in a single R session
+for(i in 1:22){
+  # set up file names
+  afr.gds <- paste0('chr', i, '_afr.gds')
+  eur.gds <- paste0('chr', i, '_eur.gds')
+  nam.gds <- paste0('chr', i, '_nam.gds')
+  # run get_corr_chr
+  corr.list[[i]] <- get_corr_chr(chrom = i, map = example_map, 
+        pop1.gds = afr.gds, pop2.gds = eur.gds, pop3.gds = nam.gds)
+  # print update
+  cat('done with chromosome', i, '\n')
+}
+```
+
+**Step 3:** Run `combine_corr_chr` to combine results across all chromosomes and store as a data frame in the desired format:
+
+```{r eval = FALSE}
+# combine results across chromosomes
+corr_K3 <- combine_corr_chr(corr.list)
+```
+
+This data frame should include three columns, named `theta`, `corr`, and `anc` (column order does not matter, but the column names do!):
+
+* `theta`: recombination fraction between loci
+* `corr`: correlation between those local ancestry components at that pair of loci
+* `anc`: indices of ancestral compoments being compared at the two loci (e.g., `1_1`, `1_2`)
+
+### Using `get_g`
+
+Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of `g` that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$ (see Grinde et al. (2019) for more details):
+
+```{r}
+## 2 ancestral populations ##
+get_g(example_corr)
+```
+
+```{r}
+## 3 ancestral populations ##
+get_g(example_corr_K3)
+```
+
+**NOTE:** in these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations). In both cases, the estimated g turns out very close to the truth: 5.97 and 9.96, respectively.
+
+## Analytic Approximation (get_thresh_analytic)
+
+## Test Statistic Simulation (get_thresh_simstat)
+
+### K = 2 populations
+
+### K = 3 populations
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
+
+# References
+
