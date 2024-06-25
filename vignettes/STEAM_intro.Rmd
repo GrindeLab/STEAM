@@ -1,5 +1,6 @@
 ---
 title: "An Introduction to STEAM"
+author: UPDATE AUTHORS!!!
 output:
   BiocStyle::html_document:
     toc: true
@@ -161,6 +162,40 @@ get_g(example_corr_K3)
 **NOTE:** in these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations). In both cases, the estimated g turns out very close to the truth: 5.97 and 9.96, respectively.
 
 ## Analytic Approximation (get_thresh_analytic)
+
+For an admixture mapping study in an admixed population with two ancestral populations (e.g., African Americans), we can use either approach (Analytic Approximation or Test Statistic Simulation) to estimate genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
+
+**Step 1:** Suppose we have markers spaced every 0.2 cM across 22 chromosomes. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
+
+```{r}
+head(example_map)
+```
+
+More information about creating a `map` data frame can be found in **Step 1** of Section 3: Required Data Format. The data frame `example_map` can be downloaded from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data).
+
+**Step 2:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1: Estimating g (get_g). 
+
+**Step 3:** We are now ready to estimate our genome-wide significance threshold. We wish to estime the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level.
+
+Our example data, `example_map` has a `g` value of 6.
+
+To implement the analytic approximation approach, use the following command. By default, the command will return the *p*-value threshold:
+
+```{r}
+get_thresh_analytic(g = 6, map = example_map)
+```
+
+`get_thresh_analytic` can also return the test statistic threshold with the following command:
+
+```{r}
+get_thresh_analytic(g = 6, map = example_map, type = "stat")
+```
+
+The default family-wise error rate used for `get_thresh_analytic` is 0.05. This can be changed using the `alpha` parameter. The following code changes the desired family-wise error rate to 0.01:
+
+```{r}
+get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
+```
 
 ## Test Statistic Simulation (get_thresh_simstat)
 
