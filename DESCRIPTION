@@ -1,4 +1,4 @@
-Package: STEAMcpp
+Package: STEAM
 Type: Package
 Title: Significance Threshold Estimation for Admixture Mapping using Rcpp
 Version: 0.1.0
