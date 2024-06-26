@@ -29,7 +29,7 @@ get_corr_chr <- function(chrom, binsize = 0.5, map, pop1.gds, pop2.gds, pop3.gds
   map.df <- subset(map, chr == chrom)
 
   # list all possible pairs of loci
-  if(is.null(map.df$snp.id)) map.df$snp.id <- 1:(nrow(map.df))
+  if(is.null(map.df$snp.id)) map.df$snp.id <- seq_len(nrow(map.df))
   snps.pairs <- combn(map.df$snp.id, 2)
 
   # store as data table
@@ -67,7 +67,7 @@ get_corr_chr <- function(chrom, binsize = 0.5, map, pop1.gds, pop2.gds, pop3.gds
   snps.dt$corr_33 <- NA
 
   # loop through pairs to get correlation
-  for(i in 1:nrow(snps.dt)){
+  for(i in seq_len(nrow(snps.dt))){
     # get snp names
     snp1.i <- snps.dt$snp1[i]
     snp2.i <- snps.dt$snp2[i]
