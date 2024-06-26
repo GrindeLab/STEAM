@@ -85,9 +85,9 @@ Estimating `g` from our observed data---rather than relying on estimates from ex
 
 **To use STEAM to estimate `g`, we must first calculate the observed correlation of local ancestry at pairs of loci in our data.** Calculating this correlation for all possible pairs of loci is not necessary; using a representative, thinned subset of markers will suffice. However, correlation should be calculated for all possible pairs of ancestral components:
 
-* In an admixed population with 2 ancestral populations (e.g., African, European), there are three possible pairs of ancestral components (AFR at both loci, EUR at both loci, AFR at one locus and EUR at the other locus).
+* In an admixed population with 2 ancestral populations (e.g., African (AFR), European (EUR)), there are three possible pairs of ancestral components (AFR at both loci, EUR at both loci, AFR at one locus and EUR at the other locus).
 
-* In an admixed population with 3 ancestral populations (e.g., African, European, Native American), there are six possible pairs of ancestral components (AFR at both loci, EUR at both loci, NAM at both loci, AFR at one and EUR at the other, AFR at one and NAM at the other, EUR at one and NAM at the other).
+* In an admixed population with 3 ancestral populations (e.g., African, European, Native American (NAM)), there are six possible pairs of ancestral components (AFR at both loci, EUR at both loci, NAM at both loci, AFR at one and EUR at the other, AFR at one and NAM at the other, EUR at one and NAM at the other).
 
 Store this local ancestry correlation in a data frame with three columns, as in the following examples (available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data)):
 
