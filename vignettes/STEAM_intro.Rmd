@@ -42,7 +42,6 @@ To run either approach, we first need to:
    
 Here is an example of a map file, `example_map`, available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data):
 ```{r}
-## first 6 rows of example_map ##
 head(example_map)
 ```
 
@@ -61,9 +60,9 @@ head(example_props_K3)
 ```
 
 
-**Step 3:** Estimate g, the number of generations since admixture.
+**Step 3:** Estimate g, the number of generations since admixture. We recommend that you use STEAM for this step. 
    
-   * We recommend that you use STEAM for this step. **NOTE:** Using this approach requires that you calculate the observed correlation of local ancestry at pairs of loci in your data. For more details, please see Section 4.1 below.
+* **NOTE:** Using this approach requires that you calculate the observed correlation of local ancestry at pairs of loci in your data. For more details, please see Section 4.1 below.
 
 # Main Functions
 
@@ -89,7 +88,7 @@ Estimating `g` from our observed data---rather than relying on estimates from ex
 
 * In an admixed population with 3 ancestral populations (e.g., African, European, Native American (NAM)), there are six possible pairs of ancestral components (AFR at both loci, EUR at both loci, NAM at both loci, AFR at one and EUR at the other, AFR at one and NAM at the other, EUR at one and NAM at the other).
 
-Store this local ancestry correlation in a data frame with three columns, as in the following examples (available in the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data)):
+Store this local ancestry correlation in a data frame with three columns, as in the following examples (available to download from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data)):
 
 ```{r}
 ## 2 ancestral populations ##
@@ -105,7 +104,7 @@ head(example_corr_K3)
 
 You are free to calculate this local ancestry correlation however you please. One option (if you are studying an admixed population with `K = 3` ancestral populations) is to use the functions `get_corr_chr` and `combine_corr_chr` contained in this package:
 
-**Step 1:** Convert local ancestry calls into SeqArray GDS files, with one file per ancestral population and chromosome (i.e., 'chr22_afr.gds' contains local ancestry calls for chromosome 22, where alleles are coded such that 1 = allele inherited from African ancestors, 0 = allele inherited from some other ancestral population).
+**Step 1:** Convert local ancestry calls into [SeqArray](https://bioconductor.org/packages/release/bioc/html/SeqArray.html)? GDS files, with one file per ancestral population and chromosome (i.e., 'chr22_afr.gds' contains local ancestry calls for chromosome 22, where alleles are coded such that 1 = allele inherited from African ancestors, 0 = allele inherited from some other ancestral population).
 
 * **NOTE:** if you first convert your local ancestry calls into VCF files, with one file per chromosome and ancestral population, then you can use `vcf2gds.py` in the [UW GAC TOPMed analysis pipeline](https://github.com/UW-GAC/analysis_pipeline) to convert to GDS files.
 
@@ -149,6 +148,8 @@ This data frame should include three columns, named `theta`, `corr`, and `anc` (
 
 Once we have this local ancestry correlation, we use non-linear least squares to estimate the value of `g` that provides the best fit to the equation $\text{Corr} = a + b \times (1-\theta)^g$ (see Grinde et al. (2019) for more details):
 
+> **what do a and b represent in the equation? would we wanna clarify for the vignette** 
+
 ```{r}
 ## 2 ancestral populations ##
 get_g(example_corr)
@@ -163,7 +164,7 @@ get_g(example_corr_K3)
 
 ## Analytic Approximation (get_thresh_analytic)
 
-For an admixture mapping study in an admixed population with **two ancestral populations** (e.g., African Americans), we can use either approach (Analytic Approximation or Test Statistic Simulation) to estimate genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options.
+For an admixture mapping study in an admixed population with **two ancestral populations** (e.g., African Americans), we can use either approach (Analytic Approximation or Test Statistic Simulation) to estimate genome-wide significance threshold for our study. The analytic approximation approach is the faster of the two options. See Grinde et al. (2019) for more details on the methods for the Analytic Approximation approach.
 
 **Step 1:** Suppose we have markers spaced every 0.2 cM across 22 chromosomes. We store the information about genetic position and chromosome for each marker in a data frame called `example_map`:
 
@@ -173,25 +174,30 @@ head(example_map)
 
 More information about obtaining a `map` data frame can be found in **Step 1** of Section 3: Required Data Format. The example data frame `example_map` can be downloaded from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data).
 
-**Step 2:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1: Estimating g (get_g). 
+**Step 2:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1. 
 
-**Step 3:** We are now ready to estimate our genome-wide significance threshold. We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level.
+**Step 3:** We are now ready to estimate our genome-wide significance threshold.
+
+`get_thresh_analytic` has the following arguments that can be adjusted to fit the needs of your study:
+
+* `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default value is "pval")
+* `alpha`: the level for family-wise error rate control (default value is 0.05)
 
 Our two ancestral population example data, `example_corr` (used in the `get_g` function) has a `g` value of 6.
 
-To implement the analytic approximation approach, use the following command. By default, the command will return the *p*-value threshold:
+To implement the analytic approximation approach for `K = 2` ancestral populations, use the following command. By default, the command will return the *p*-value threshold at the 0.05 family-wise error rate control level:
 
 ```{r}
 get_thresh_analytic(g = 6, map = example_map)
 ```
 
-`get_thresh_analytic` can also return the test statistic threshold with the following command:
+`get_thresh_analytic` can also return the test statistic threshold by including the argument `type = "stat"`:
 
 ```{r}
 get_thresh_analytic(g = 6, map = example_map, type = "stat")
 ```
 
-The default family-wise error rate used for `get_thresh_analytic` is 0.05. This can be changed using the `alpha` parameter. The following code changes the desired family-wise error rate to 0.01:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01:
 
 ```{r}
 get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
@@ -199,9 +205,9 @@ get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
 
 ## Test Statistic Simulation (get_thresh_simstat)
 
-For an admixture mapping study in an admixed population with **two ancestral populations** (e.g., African Americans) **or three ancestral populations** (e.g., Latinx/Hispanic Americans), we can use the Test Statistic Simulation approach to estimate the genome-wide significance threshold for our study. Additionally, the 95% confidence interval for the test statistic simulated significance threshold will also be returned. See Grinde et al. (2019) for more details on the methods and motivation for this approach.
+For an admixture mapping study in an admixed population with **two ancestral populations** (e.g., African Americans) **or three ancestral populations** (e.g., Latinx/Hispanic Americans), we can use the Test Statistic Simulation approach to estimate the genome-wide significance threshold for our study. Additionally, the 95% confidence interval for the test statistic simulated significance threshold will be returned. See Grinde et al. (2019) for more details on the methods and motivation for the Test Statistic Simulation approach.
 
-If your population has **two ancestral populations**, the `get_thresh_analytic` function is a faster method to estimate the significance threshold. See Section 4.2: Analytic Approximation (get_thresh_analytic) above for more details. However, running `get_thresh_simstat` with two ancestral populations will still work and return a significance threshold and 95% confidence interval.
+If your population has **two ancestral populations**, the `get_thresh_analytic` function is a faster method to estimate the significance threshold. See Section 4.2 above for more details. However, running `get_thresh_simstat` with two ancestral populations will work and return a significance threshold along with the 95% confidence interval, which is a feature unavailable with the `get_thresh_analytic` function.
 
 If your population has **three ancestral populations**, you must use the `get_thresh_simstat` function to estimate the significance threshold. `get_thresh_analytic` will **not** work with these populations. 
 
@@ -227,11 +233,9 @@ head(example_props_K3)
 
 More information about obtaining a `props` data frame can be found in **Step 2** of Section 3: Required Data Format. The example data frames `example_props` and `example_props_K3` can be downloaded from the [STEAM GitHub repository](https://github.com/GrindeLab/STEAM/tree/main/data).
 
-**Step 3:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1: Estimating g (get_g).
+**Step 3:** Use STEAM to approximate `g`, the number of generations since admixture. STEAM estimates `g` using the correlation of local ancestry in the data for each pair of loci and ancestral components. The process to obtain `g` is described above in Section 4.1.
 
-**Step 4:** We are now ready to estimate our genome-wide significance threshold. We wish to estimate the *p*-value threshold which will control the family-wise error rate for this study at the 0.05 level.
-
-Our two ancestral population example data, `example_corr` (used in the `get_g` function) has a `g` value of 6. Our three ancestral population example data, `example_corr_K3` (used in the `get_g` function) has a `g` value of 10.
+**Step 4:** We are now ready to estimate our genome-wide significance threshold. 
 
 `get_thresh_simstat` has the following arguments that can be adjusted to fit the needs of your study:
 
@@ -239,7 +243,9 @@ Our two ancestral population example data, `example_corr` (used in the `get_g` f
 * `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default value is "pval")
 * `alpha`: the level for family-wise error rate control (default value is 0.05)
 
-To implement the test statistic simulation approach for `K = 2` ancestral populations at the 0.05 level, use the following commands. By default, the command will return the *p*-value threshold:
+Our two ancestral population example data, `example_corr` (used in the `get_g` function) has a `g` value of 6. Our three ancestral population example data, `example_corr_K3` (used in the `get_g` function) has a `g` value of 10.
+
+To implement the test statistic simulation approach for `K = 2` ancestral populations at the 0.05 family-wise error rate control level, use the following commands. By default, the command will return the *p*-value threshold:
 
 ```{r}
 ## two ancestral populations ##
@@ -247,7 +253,7 @@ set.seed(1) # set seed for reproducibility
 get_thresh_simstat(g = 6, map = example_map, props = example_props, nreps = 50)
 ```
 
-For `K = 3` ancestral populations, the command is similar:
+For `K = 3` ancestral populations, the commands are similar:
 
 ```{r}
 ## three ancestral populations ##
@@ -256,9 +262,9 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50)
 ```
 
-**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number of reps. In practice, we recommend using a much larger number number of replications (the STEAM default is 10,000 reps).
+**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number for `nreps`. In practice, we recommend using a much larger number number of replications (the STEAM default is `nreps = 10,000`). **MENTION APPROX. TIMING HERE??**
 
-To return the test statistic threshold rather than the *p*-value threshold, use the following commands:
+To return the test statistic threshold rather than the *p*-value threshold, include the argument `type = "stat"`:
 
 ```{r}
 ## two ancestral populations ##
@@ -273,7 +279,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50, type = "stat")
 ```
 
-To change the desired family-wise error rate, use the following commands:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01:
 
 ```{r}
 ## two ancestral populations ##
@@ -289,7 +295,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50, alpha = 0.01)
 ```
 
-> **WHAT DOES THE CONFIDENCE INTERVAL MEAN NOW? ASK KELSEY!**
+> **DOES THIS CHANGE MEANING OF 95% CONF INT? ASK KELSEY!**
 
 **Note:** the thresholds for three ancestral populations are more stringent than the thresholds for ancestral populations. This reflects the increased number of hypothesis tests being performed when `K = 3` as well as the different distributions of admixture proportions in the two populations.
 
