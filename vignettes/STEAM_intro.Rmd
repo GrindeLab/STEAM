@@ -28,7 +28,41 @@ library(STEAM)
 
 ## Bioconductor
 
+> Verify that this is accurate
+
+To install the STEAM package from Bioconductor, run the following commands in `R`:
+
+```{r eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("STEAM")  
+```
+
 ## GitHub
+
+To install the STEAM package from GitHub, run the following commands in `R`:
+
+```{r eval = FALSE}
+# install.packages("devtools") # run this line if you have not yet installed the devtools package
+library(devtools)
+devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
+```
+
+Running the above code could potentially lead to a red error message regarding dependencies not being available to for the package. The most likely packages listed are the `gdsfmt`, `SNPRelate`, and `SeqArray` packages. To install these packages from Bioconductor, try the following commands:
+
+```{r eval = FALSE}
+# install.packages("devtools") # run this line if you have not yet installed the devtools package
+library(devtools)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+
+BiocManager::install(c("SeqArray", "SNPRelate", "gdsfmt"))
+devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
+```
+
+Without the `gdsfmt`, `SNPRelate`, and `SeqArray` packages already installed, the download will take around 5 minutes before it is completed and ready to run.
+ 
+
 
 # Required Data Format (come up with better name?)
 
@@ -197,7 +231,7 @@ get_thresh_analytic(g = 6, map = example_map)
 get_thresh_analytic(g = 6, map = example_map, type = "stat")
 ```
 
-The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01. `alpha` can be any value within the range [0,1]:
 
 ```{r}
 get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
@@ -262,7 +296,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50)
 ```
 
-**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number for `nreps`. In practice, we recommend using a much larger number number of replications (the STEAM default is `nreps = 10,000`). **MENTION APPROX. TIMING HERE??**
+**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number for `nreps`. **In practice, we recommend using a much larger number number of replications (the STEAM default is `nreps = 10,000`).** **MENTION APPROX. TIMING HERE??**
 
 To return the test statistic threshold rather than the *p*-value threshold, include the argument `type = "stat"`:
 
@@ -272,6 +306,7 @@ set.seed(1) # set seed for reproducibility
 get_thresh_simstat(g = 6, map = example_map, props = example_props, 
                    nreps = 50, type = "stat")
 ```
+
 ```{r}
 ## three ancestral populations ##
 set.seed(1) # set seed for reproducibility
@@ -279,7 +314,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50, type = "stat")
 ```
 
-The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate to from the default of 0.05 to a new rate of 0.01. `alpha` can be any value within the range [0,1]:
 
 ```{r}
 ## two ancestral populations ##
