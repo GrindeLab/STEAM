@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // simstatSingle
 double simstatSingle(int m, int K, NumericVector as, NumericVector bs, NumericMatrix L);
-RcppExport SEXP _STEAMcpp_simstatSingle(SEXP mSEXP, SEXP KSEXP, SEXP asSEXP, SEXP bsSEXP, SEXP LSEXP) {
+RcppExport SEXP _STEAM_simstatSingle(SEXP mSEXP, SEXP KSEXP, SEXP asSEXP, SEXP bsSEXP, SEXP LSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,11 +22,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_STEAMcpp_simstatSingle", (DL_FUNC) &_STEAMcpp_simstatSingle, 5},
+    {"_STEAM_simstatSingle", (DL_FUNC) &_STEAM_simstatSingle, 5},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_STEAMcpp(DllInfo *dll) {
+RcppExport void R_init_STEAM(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
