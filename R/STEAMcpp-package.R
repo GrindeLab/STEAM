@@ -1,5 +1,5 @@
 ## usethis namespace: start
-#' @useDynLib STEAMcpp, .registration = TRUE
+#' @useDynLib STEAM, .registration = TRUE
 ## usethis namespace: end
 NULL
 ## usethis namespace: start
