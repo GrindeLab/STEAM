@@ -5,21 +5,21 @@ get_obj <- function(Rdata){
     warning(paste("Multiple objects stored in file", Rdata,
                   "\nReturning only the first object"))
   }
-  return(get(objname))
+  get(objname) #return
 }
 
 # convert genetic distance into recombination fraction
 L_to_theta <- function(cM){
   L <- cM/100
   theta <- 0.5*(1-exp(-2*L))
-  return(theta)
+  theta #return
 }
 
 # function to get distance between pairs of SNPs
 get_dist <- function(s1, s2, gen.map){
   pos1 <- gen.map$cM[match(s1, gen.map$snp.id)]
   pos2 <- gen.map$cM[match(s2, gen.map$snp.id)]
-  return(abs(pos2-pos1))
+  abs(pos2-pos1) #return
 }
 
 # get correlation for one pair of SNPs
@@ -42,5 +42,5 @@ get_corr <- function(s1, s2, afr, eur, nam){
   c31 <- cor(nam.anc$g[,n1], afr.anc$g[,a2])
   c32 <- cor(nam.anc$g[,n1], eur.anc$g[,e2])
   c33 <- cor(nam.anc$g[,n1], nam.anc$g[,n2])
-  return(c(c11,c12,c13,c21,c22,c23,c31,c32,c33))
+  c(c11,c12,c13,c21,c22,c23,c31,c32,c33) #return
 }
