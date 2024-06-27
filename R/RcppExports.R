@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 simstatSingle <- function(m, K, as, bs, L) {
-    .Call(`_STEAMcpp_simstatSingle`, m, K, as, bs, L)
+    .Call(`_STEAM_simstatSingle`, m, K, as, bs, L)
 }
 
