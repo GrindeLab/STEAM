@@ -64,7 +64,7 @@ Without the `gdsfmt`, `SNPRelate`, and `SeqArray` packages already installed, th
  
 
 
-# Required Data Format (come up with better name?)
+# Required Data Format
 
 Grinde et al. (2019) proposed two approaches for estimating genome-wide significance thresholds for admixture mapping studies: Analytic Approximation (Section 4.2) and Test Statistic Simulation (Section 4.3). 
 
