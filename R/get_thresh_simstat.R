@@ -31,7 +31,7 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   ab <- get_ab(dlt,g)
 
   # get average admixture proportions
-  avg_props <- apply(props,2,mean,na.rm=T)
+  avg_props <- apply(props,2,mean,na.rm=TRUE)
 
   # calculate the matrix L
   L <- get_L(avg_props) # could condense with calculating avg
@@ -59,8 +59,8 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
     thresh <- zstar
     thresh_ci <- z_ci
   } else if(type == "pval"){
-    thresh <- 2 * pnorm(zstar, lower.tail = F)
-    thresh_ci <- 2 * pnorm(z_ci, lower.tail = F)
+    thresh <- 2 * pnorm(zstar, lower.tail = FALSE)
+    thresh_ci <- 2 * pnorm(z_ci, lower.tail = FALSE)
   } else{
     cat("Please specify type = 'stat' or type = 'pval' \n")
   }
