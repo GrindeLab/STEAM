@@ -345,7 +345,7 @@ More information about obtaining a `props` data frame can be found in **Step 2**
 * `nreps`: the number of repetitions for the simulation study (default value is 10,000)
 * `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default is "pval")
 * `alpha`: the level for family-wise error rate control (default value is 0.05)
-* `method`: the method used to simulate the test statistics, "cpp" for cpp (using Rcpp, approximately 80% faster than "r") or "r" for R (default is "cpp")
+* `method`: the method used to simulate the test statistics, "cpp" for cpp (using Rcpp, significantly faster than "r") or "r" for R (default is "cpp")
 
 \
 
@@ -412,7 +412,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
 
 \
 
-By default, `get_thresh_simstat` uses the package Rcpp developed by [RcppCore](https://www.rcpp.org/) to speed up the simulation process by approximately 80% by using C++ code rather than R code. If you would like to use the slower R code version instead, include the argument `method = "r"`:
+By default, `get_thresh_simstat` uses the package Rcpp developed by [RcppCore](https://www.rcpp.org/) to speed up the test statistic simulation process by using C++ code rather than R code. If you would like to use the slower R code version instead, include the argument `method = "r"`:
 
 ```{r}
 ## two ancestral populations ##
@@ -440,4 +440,3 @@ sessionInfo()
 
 
 # References
-
