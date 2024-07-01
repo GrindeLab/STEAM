@@ -20,7 +20,7 @@ get_L <- function(ep){
     L <- matrix(c(1,0,
                   sig[1,2],sqrt(1-sig[1,2]^2),
                   sig[1,3],-sqrt(1-sig[1,3]^2)),
-                byrow=T,nrow=3)
+                byrow=TRUE,nrow=3)
   } else{
     # check for mgcv package
     if(requireNamespace("mgcv", quietly = TRUE)){
