@@ -8,10 +8,14 @@ Description: Significance Threshold Estimation for Admixture Mapping using Rcpp.
     theoretical results from the paper "Genome-wide significance thresholds for admixture mapping studies".
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+biocViews: 
+    SNPRelate,
+    SeqArray,
+    gdsfmt
 LinkingTo: 
     Rcpp
 Imports: 
@@ -22,6 +26,6 @@ Imports:
     gdsfmt,
     bootstrap,
     mgcv
-Depends: R (>= 2.10)
+Depends: R (>= 4.3.0)
 NeedsCompilation: yes
 Packaged: 2020-07-28 19:48:55 UTC; zuofuhuang
