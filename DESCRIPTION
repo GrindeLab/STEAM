@@ -21,7 +21,8 @@ Imports:
     data.table, 
     gdsfmt,
     bootstrap,
-    mgcv
+    mgcv,
+    progressr
 Depends: R (>= 2.10)
 NeedsCompilation: yes
 Packaged: 2020-07-28 19:48:55 UTC; zuofuhuang
