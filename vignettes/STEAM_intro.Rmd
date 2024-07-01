@@ -68,7 +68,9 @@ devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
 
 Depending on how many of the dependent packages are already installed on your machine, the download process could take up to a few minutes.
 
-If asked to update any packages to the more recent versions available, we recommend that you do so. This can be done by typing "1" into the console when prompted during the download process.
+If asked to update any packages to the more recent versions available, we recommend that you do so. This can be done by typing "1" or "a" into the console when prompted during the download process, depending on which message you are prompted with.
+
+**NOTE:** If you are using the online Posit Workbench version of RStudio in a browser on your machine, the download process will take significantly longer than if using the desktop version.
 
 # Required Data Format
 
