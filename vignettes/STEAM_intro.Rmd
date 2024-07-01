@@ -60,9 +60,11 @@ BiocManager::install(c("SeqArray", "SNPRelate", "gdsfmt"))
 devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
 ```
 
-Without the `gdsfmt`, `SNPRelate`, and `SeqArray` packages already installed, the STEAM download process will take around 5 minutes before it is completed and ready to run.
- 
+Running the code above will download STEAM as well as automatically install the following dependent packages: `BioGenerics`, `BiocVersion`, `Biostrings`, `bootstrap`, `data.table`, `GenomeInfoDb`, `GenomeInfoDbData`, `GenomicRanges`, `IRanges`, `Rcpp`, `S4Vectors`, `UCSC.utils`, `XVector`, and `zlibbioc.`
 
+Depending on how many of the dependent packages are already downloaded and installed on your machine, the download process could take up to 10 minutes to complete.
+
+If asked to update any packages to the more recent versions available, we recommend that you do so. This can be done by typing "1" into the console when prompted during the download process.
 
 # Required Data Format
 
@@ -274,8 +276,9 @@ More information about obtaining a `props` data frame can be found in **Step 2**
 `get_thresh_simstat` has the following arguments that can be adjusted to fit the needs of your study:
 
 * `nreps`: the number of repetitions for the simulation study (default value is 10,000)
-* `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default value is "pval")
+* `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default is "pval")
 * `alpha`: the level for family-wise error rate control (default value is 0.05)
+* `method`: the method used to simulate the test statistics, "cpp" for cpp (using Rcpp, approximately 80% faster than "r") or "r" for R (default is "cpp")
 
 Our two ancestral population example data, `example_corr` (used in the `get_g` function) has a `g` value of 6. Our three ancestral population example data, `example_corr_K3` (used in the `get_g` function) has a `g` value of 10.
 
@@ -296,7 +299,7 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50)
 ```
 
-**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number for `nreps`. **In practice, we recommend using a much larger number number of replications (the STEAM default is `nreps = 10,000`).** **MENTION APPROX. TIMING HERE??**
+**Note:** Computation time increases with the number of replications, so for the purposes of this example we choose a small number for `nreps`. **In practice, we recommend using a much larger number number of replications (the STEAM default is `nreps = 10,000`).** ***MENTION APPROX. TIMING HERE??***
 
 To return the test statistic threshold rather than the *p*-value threshold, include the argument `type = "stat"`:
 
@@ -330,7 +333,22 @@ get_thresh_simstat(g = 10, map = example_map, props = example_props_K3,
                    nreps = 50, alpha = 0.01)
 ```
 
-> **DOES THIS CHANGE MEANING OF 95% CONF INT? ASK KELSEY!**
+By default, `get_thresh_simstat` uses the package Rcpp developed by [RcppCore](https://www.rcpp.org/) to speed up the simulation process by approximately 80% by using C++ code rather than R code. If you would like to use the slower R code version instead, include the argument `method = "r"`:
+
+```{r}
+## two ancestral populations ##
+set.seed(1) # set seed for reproducibility
+get_thresh_simstat(g = 10, map = example_map, props = example_props, 
+                   nreps = 50, method = "r")
+```
+
+```{r}
+## three ancestral populations ##
+set.seed(1) # set seed for reproducibility
+get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, 
+                   nreps = 50, method = "r")
+```
+
 
 **Note:** the thresholds for three ancestral populations are more stringent than the thresholds for ancestral populations. This reflects the increased number of hypothesis tests being performed when `K = 3` as well as the different distributions of admixture proportions in the two populations.
 
