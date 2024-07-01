@@ -353,6 +353,8 @@ Our `K = 2` ancestral population example data, `example_corr` (used in the `get_
 
 \
 
+As `get_thresh_simstat` is running, a progress bar will appear in the console to show how far along the program is in the simulation process. Depending on the size of the data and the value for `nreps`, the function will take a few minutes to run and the progress can be tracked visually.
+
 To implement the test statistic simulation approach for `K = 2` ancestral populations at the 0.05 family-wise error rate control level, use the following commands. By default, the command will return the *p*-value threshold:
 
 ```{r}
