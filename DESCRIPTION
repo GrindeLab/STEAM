@@ -3,7 +3,7 @@ Type: Package
 Title: Significance Threshold Estimation for Admixture Mapping using Rcpp
 Version: 0.1.0
 Author: Kelsey Grinde
-Authors@R: person("Kelsey", "Grinde", "kgrinde@macalester.edu", role = c("aut", "cre")
+Authors@R: person("Kelsey", "Grinde", "kgrinde@macalester.edu", role = c("aut", "cre"))
 Description: Significance Threshold Estimation for Admixture Mapping using Rcpp. This package is built on 
     theoretical results from the paper "Genome-wide significance thresholds for admixture mapping studies".
 License: MIT + file LICENSE
