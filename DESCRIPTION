@@ -1,7 +1,7 @@
 Package: STEAM
 Type: Package
 Title: Significance Threshold Estimation for Admixture Mapping using Rcpp
-Version: 0.1.0
+Version: 0.2.0
 Author: Kelsey Grinde
 Authors@R: person(given = "Kelsey", family = "Grinde", email = "kgrinde@macalester.edu", role = c("aut", "cre"))
 Description: Significance Threshold Estimation for Admixture Mapping using Rcpp. This package is built on 
