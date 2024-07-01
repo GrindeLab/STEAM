@@ -66,11 +66,7 @@ devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
 
 \
 
-Running the code above will download STEAM as well as automatically install the following dependent packages: `BioGenerics`, `BiocVersion`, `Biostrings`, `bootstrap`, `data.table`, `GenomeInfoDb`, `GenomeInfoDbData`, `GenomicRanges`, `IRanges`, `Rcpp`, `S4Vectors`, `UCSC.utils`, `XVector`, and `zlibbioc.`
-
-\
-
-Depending on how many of the dependent packages are already downloaded and installed on your machine, the download process could take up to 10 minutes to complete.
+Depending on how many of the dependent packages are already installed on your machine, the download process could take up to a few minutes.
 
 If asked to update any packages to the more recent versions available, we recommend that you do so. This can be done by typing "1" into the console when prompted during the download process.
 
