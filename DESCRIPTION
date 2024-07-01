@@ -19,6 +19,8 @@ biocViews:
 LinkingTo: 
     Rcpp
 Imports: 
+    utils,
+    stats,
     Rcpp, 
     SNPRelate, 
     SeqArray,
