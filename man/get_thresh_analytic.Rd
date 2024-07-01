@@ -4,8 +4,13 @@
 \alias{get_thresh_analytic}
 \title{Significance Threshold Estimation for Admixture Mapping using Analytic Approximation}
 \usage{
-get_thresh_analytic(g, map, alpha = 0.05, type = "pval",
-  searchint = c(1.96, 8))
+get_thresh_analytic(
+  g,
+  map,
+  alpha = 0.05,
+  type = "pval",
+  searchint = c(1.96, 8)
+)
 }
 \arguments{
 \item{g}{the generations since admixture.}
@@ -19,7 +24,7 @@ get_thresh_analytic(g, map, alpha = 0.05, type = "pval",
 \item{searchint}{the range of test statistic thresholds for \code{uniroot} to search; defaults to 1.96--8, corresponding to p-value threshold of 0.05--1.2e-15}
 }
 \value{
-A single nummber indicating the estimated significance threshold (either test statistic or p-value).
+A single number indicating the estimated significance threshold (either test statistic or p-value).
 }
 \description{
 Compute genome-wide significance (test statistic or p-value) threshold for admixture

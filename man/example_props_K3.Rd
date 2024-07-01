@@ -3,11 +3,13 @@
 \name{example_props_K3}
 \alias{example_props_K3}
 \title{Example admixture proportions: K = 3}
-\format{Data frame should have n rows (n = no. individuals)
+\format{
+Data frame should have n rows (n = no. individuals)
   and K columns (K = no. ancestral populations). Each column
   contains estimated proportion of total genetic material
   inherited from that ancestral population. Column names do
-  not matter.}
+  not matter.
+}
 \source{
 Toy example generated with command
   \code{library(gtools); example_props_K3 <- data.frame(rdirichlet(1000,alpha=c(1,1,1)))}

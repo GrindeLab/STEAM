@@ -3,8 +3,10 @@
 \name{example_L}
 \alias{example_L}
 \title{Example L matrix}
-\format{Matrix with K rows (K = no. ancestral pop)
-  and K-1 columns.}
+\format{
+Matrix with K rows (K = no. ancestral pop)
+  and K-1 columns.
+}
 \source{
 Toy example generated with command
   \code{get_L(apply(example_props,2,mean))}

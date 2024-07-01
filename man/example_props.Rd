@@ -3,11 +3,13 @@
 \name{example_props}
 \alias{example_props}
 \title{Example admixture proportions}
-\format{Data frame should have n rows (n = no. individuals)
+\format{
+Data frame should have n rows (n = no. individuals)
   and K columns (K = no. ancestral populations). Each column
   contains estimated proportion of total genetic material
   inherited from that ancestral population. Column names do
-  not matter.}
+  not matter.
+}
 \source{
 Toy example generated with command
   \code{example_props <- data.frame(pop1 = runif(1000, 0, 1)); example_props$pop2 <- 1 - example_props$pop1}

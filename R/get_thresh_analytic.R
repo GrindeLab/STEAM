@@ -10,7 +10,7 @@
 #' @param type the type of threshold that should be returned: \code{"stat"} for test statistic or \code{"pval"} for p-value; defaults to pval.
 #' @param searchint the range of test statistic thresholds for \code{uniroot} to search; defaults to 1.96--8, corresponding to p-value threshold of 0.05--1.2e-15
 #'
-#' @return A single nummber indicating the estimated significance threshold (either test statistic or p-value).
+#' @return A single number indicating the estimated significance threshold (either test statistic or p-value).
 #'
 #' @examples
 #' get_thresh_analytic(g = 6, map = example_map) # get p-value threshold
@@ -21,6 +21,7 @@
 #' @importFrom stats uniroot pnorm
 #'
 #' @export
+
 get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c(1.96,8)){
   # calculate number of chromosomes
   nchr <- length(unique(map$chr))
@@ -41,3 +42,5 @@ get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c
     cat("Error: please specify type='stat' or 'pval'.")
   }
 }
+
+

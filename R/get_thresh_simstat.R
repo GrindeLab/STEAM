@@ -43,7 +43,7 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   
   
   # simulate test stats nreps times
-  
+
   
   max_stats <- numeric(nreps)
   for (i in 1:nreps) {
@@ -58,7 +58,7 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   
   message("loading...")
   
-  
+
   # get upper alpha quantile
   zstar <- upper_alpha(max_stats, alpha)
   
