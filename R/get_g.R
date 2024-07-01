@@ -40,6 +40,14 @@ get_g <- function(lacorr, start.a = 0, start.b = 1, start.g = 10){
     mod <- eval(parse(text=paste0("with(lacorr,",
                                   "nls(corr ~ a + b*(1-theta)^g,",
                                   'start = list(g=',start.g,')))')))
+    
+    mod <- eval(nlxb(corr ~ a + b*(1-theta)^g,
+                     data = lacorr,
+                     start = g = start.g),
+                     lower = g = ------),
+                     upper = g = ------)))
+    
+    
     # return g
     g <- coef(mod)
     return(g)

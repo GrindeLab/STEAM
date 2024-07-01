@@ -29,6 +29,15 @@ run_unc_nls <- function(lacorr, k1, k2, start.a = 0, start.b = 1, start.g = 10){
                                 ',b=',start.b,
                                 ',g=',start.g,
                                 ')))')))
+  
+  mod <- eval(nlxb(corr ~ a + b*(1-theta)^g,
+                   data = subset(lacorr,anc == a.pair),
+                   start = c(a = start.a, b = start.b, g = start.g),
+                   lower = c(a = -Inf, b = -Inf, g = ------),
+                   upper = c(a = Inf, b = Inf, g = ------)))
+                  
+ 
+
   # return model
   return(mod)
 }
