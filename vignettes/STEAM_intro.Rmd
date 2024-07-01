@@ -51,7 +51,7 @@ devtools::install_github("GrindeLab/STEAM", build_vignettes = TRUE)
 
 \
 
-Running the above code could potentially lead to an error message regarding dependencies not being available to for the package. The most likely packages listed are the `gdsfmt`, `SNPRelate`, and `SeqArray` packages. To install these packages from Bioconductor, try the following commands:
+Running the above code could lead to an error message regarding dependencies not being available to for the package. The most likely packages listed are the `gdsfmt`, `SNPRelate`, and `SeqArray` packages. To install these packages from Bioconductor, try the following commands:
 
 ```{r eval = FALSE}
 # install.packages("devtools") # run this line if you have not yet installed 
