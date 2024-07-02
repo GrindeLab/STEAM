@@ -22,8 +22,6 @@ knitr::opts_chunk$set(
 library(STEAM)
 ```
 
-> TO-DO: see if I can hyperlink the different sections, pay close attention to format and make sure it's consistent, email html to kelsey sydney tina and ask for specific feedback
-
 # Introduction
 
 *STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package for estimating genome-wide significance thresholds for admixture mapping studies. The theoretical results implemented in the package are proposed in the following article:
