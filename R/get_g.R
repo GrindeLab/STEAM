@@ -43,7 +43,7 @@ get_g <- function(lacorr, start.a = 0, start.b = 1, start.g = 10){
     
     mod <- eval(nlxb(corr ~ a + b*(1-theta)^g,
                      data = lacorr,
-                     start = g = start.g),
+                     start = start.g),
                      lower = g = 2),
                      upper = g = 25)))
     
