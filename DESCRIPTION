@@ -21,4 +21,5 @@ Imports: stats,
     data.table,
     gdsfmt,
     SNPRelate,
-    SeqArray
+    SeqArray,
+    nlsr
