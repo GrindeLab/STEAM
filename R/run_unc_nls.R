@@ -23,12 +23,7 @@ run_unc_nls <- function(lacorr, k1, k2, start.a = 0, start.b = 1, start.g = 10){
   # get name of ancestry pair
   a.pair <- paste(sort(c(k1,k2),decreasing=F),collapse='_')
   # run NLS
-  mod <- eval(parse(text=paste0("with(subset(lacorr,anc=='",a.pair,
-                                "'),nls(corr ~ a + b*(1-theta)^g,",
-                                'start = list(a=',start.a,
-                                ',b=',start.b,
-                                ',g=',start.g,
-                                ')))')))
+
   
   mod <- eval(nlxb(corr ~ a + b*(1-theta)^g,
                    data = subset(lacorr,anc == a.pair),
