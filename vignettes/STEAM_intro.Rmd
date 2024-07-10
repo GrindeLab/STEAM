@@ -544,7 +544,7 @@ sessionInfo()
 
 # *STEAM* References
 
-> couldn't figure out how to cite https://github.com/UW-GAC/analysis_pipeline used in section 4.1.2 [Calculating Observed Local Ancestry Correlation using *STEAM*]
+> couldn't figure out how to cite https://github.com/UW-GAC/analysis_pipeline used in section 4.1.2 [Calculating Observed Local Ancestry Correlation using *STEAM*]. any idesas?
 
 Barrett T, Dowle M, Srinivasan A, Gorecki J, Chirico M, Hocking T (2024). _data.table: Extension of `data.frame`_. R package version 1.15.4, <https://CRAN.R-project.org/package=data.table>.
 
