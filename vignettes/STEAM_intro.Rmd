@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 library(STEAM)
 ```
 
-> **THINGS STILL NEEDING ATTENTION:**
+> **THINGS STILL NEEDING ATTENTION!:**
 
 > Should we update README file for v0.2.0 release on [GitHub](https://github.com/GrindeLab/STEAM) to link to vignette instead of what it currently is?* 
 
