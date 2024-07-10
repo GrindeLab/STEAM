@@ -41,7 +41,7 @@ When aiming to find the genetic variants that cause certain diseases or traits i
 
 \
 
-The *STEAM* package provides two approaches for estimating genome-wide significance thresholds for admixture mapping studies: Analytic Approximation and Test Statistic Simulation. The [Analytic Approximation (get_thresh_analytic)] (Section 4.2) approach can be used for admixed populations with **only two ancestral populations**. The [Test Statistic Simulation (get_thresh_simstat)] (Section 4.3) approach can be used for admixed populations with **more than two ancestral populations**. The package also includes a function for estimating the number of generations since admixture, `get_g`, which is required for both approaches (see Section 4.1: [Estimating g (get_g)]). Guidelines and recommendations on how to format the data for these functions are provided in Section 3: [Required Data Format].  
+The *STEAM* package provides two approaches for estimating genome-wide significance thresholds for admixture mapping studies: Analytic Approximation and Test Statistic Simulation. The [Analytic Approximation (get_thresh_analytic)] (Section 4.2) approach can only be used for admixed populations with **only two ancestral populations**. The [Test Statistic Simulation (get_thresh_simstat)] (Section 4.3) approach can be used for admixed populations with **two or more ancestral populations**. The *STEAM* package also includes a function for estimating the number of generations since admixture, `get_g`, which is required for both approaches (see Section 4.1: [Estimating g (get_g)]). Guidelines and recommendations on how to format the data inputs for these functions are provided in Section 3: [Required Data Format].  
 
 \
 
@@ -65,7 +65,7 @@ As we are in the process of submitting the *STEAM* package to Bioconductor, plea
 
 ## GitHub
 
-To install the *STEAM* package from the [Grinde Lab](https://github.com/GrindeLab/STEAM) GitHub repository, run the following commands in `R`:
+To install the *STEAM* package from the [Grinde Lab GitHub Repository](https://github.com/GrindeLab/STEAM), run the following commands in `R`:
 
 ```{r eval = FALSE}
 # install.packages("devtools") # run this line if you have not yet installed 
@@ -80,7 +80,7 @@ If you are prompted to update any packages to their latest versions, we recommen
 
 \
 
-Error messages regarding dependencies may appear when running the above code. If this occurs, please refer to the [Dependencies] section below for more information on how to install the necessary packages. 
+Error messages regarding dependencies may appear when running the above code, halting the installation process. If this occurs, please refer to the [Dependencies] section below for more information on how to install the necessary packages. 
 
 \
 
@@ -94,9 +94,9 @@ Depending on how many of the dependent packages are already installed on your ma
 
 ### Dependencies
 
-If you encounter an error message regarding unavailable dependencies when running the above code, you may need to separately install one or more of *STEAM*'s dependencies from Bioconductor with the `BiocManager::install()` function or from CRAN with the `install.packages()` function.
+If you encounter an error message regarding unavailable dependencies when running the above code, you may need to separately install one or more of *STEAM's* dependencies from Bioconductor with the `BiocManager::install()` function or from CRAN with the `install.packages()` function.
 
-| Package | More Info |
+| Package Name | More Information |
 |:--------:|:----------:|
 | `stats` | [CRAN](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stats-package.html) |
 | `Rcpp` | [CRAN](https://cran.r-project.org/web/packages/Rcpp/index.html) |
@@ -250,9 +250,9 @@ get_g(example_corr_K3)
 
 ### Calculating Observed Local Ancestry Correlation using *STEAM*
 
-One option (if you are studying an admixed population with **`K = 3`** ancestral populations) to try is to use the functions `get_corr_chr` and `combine_corr_chr` contained in the *STEAM* package to calculate the observed local ancestry correlation.
+One option to try (if you are studying an admixed population with **`K = 3`** ancestral populations) is to use the functions `get_corr_chr` and `combine_corr_chr` contained in the *STEAM* package to calculate the observed local ancestry correlation.
 
-**NOTE:** These functions are specifically coded to only work with **`K = 3`** ancestral populations. You are welcome to try exploring the code and modifying it to work for your desired number of ancestral populations. In the future, we hope to expand the functionality of the `get_corr_chr` and `combine_corr_chr` functions to work with any number of ancestral populations.
+**NOTE:** These functions are specifically coded to *only* work with **`K = 3`** ancestral populations. You are welcome to try exploring the code and modifying it to work for your desired number of ancestral populations. In the future, we hope to expand the functionality of the `get_corr_chr` and `combine_corr_chr` functions to work with any number of ancestral populations.
 
 \
 
@@ -356,10 +356,10 @@ get_thresh_analytic(g = 5.97, map = example_map, type = "stat")
 
 \
 
-The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate from the default of 0.05 to a new rate of 0.01. Theoretically, `alpha` could be any desired family-wise error rate within the range (0,1], but typical family-wise error rates tend to be $\leq 0.05$:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate from the default of 0.05 to a new rate of 0.01. Theoretically, `alpha` could be any desired family-wise error rate within the range (0,1], but typical family-wise error rates tend to be $\leq$ 0.05, depending on the study:
 
 ```{r}
-get_thresh_analytic(g = 6, map = example_map, alpha = 0.01)
+get_thresh_analytic(g = 5.97, map = example_map, alpha = 0.01)
 ```
 
 \
@@ -378,7 +378,7 @@ If your population has **three or more ancestral populations**, you must use the
 
 \
 
-We simulated example data to have `K = 2` and `K = 3` ancestral populations. We will demonstrate how to use `get_thresh_simstat` for both of these cases, but for `K $\gt$ 3` ancestral populations, the functions will be called in the same way.
+We simulated example data to have `K = 2` and `K = 3` ancestral populations. We will demonstrate how to use `get_thresh_simstat` for both of these cases, but for more than three ancestral populations, the functions will be called in the same way.
 
 \
 
@@ -432,7 +432,7 @@ get_g(example_corr_K3)
 * `nreps`: the number of repetitions for the simulation study (default value is 10,000)
 * `type`: the type of threshold that is returned, "pval" for *p*-value or "stat" for test statistic (default is "pval")
 * `alpha`: the level for family-wise error rate control (default value is 0.05)
-* `method`: the method used to simulate the test statistics, "cpp" for C++ (using Rcpp, significantly faster than "r") or "r" for R (default is "cpp")
+* `method`: the method used to simulate the test statistics, "cpp" for v0.2.0 (using Rcpp update, faster) or "r" for v0.1.0 (default is "cpp")
 
 \
 
@@ -440,9 +440,13 @@ get_g(example_corr_K3)
 
 \
 
-> if we get the progress bar running and in the v0.2.0 release, include following paragraph. if not, cut this out for now. 
+> remove next paragraph if progress bar doesn't work yet. also cite progress bar package in references?  
 
 As `get_thresh_simstat` runs, a progress bar will appear in the console to show how far along the program is in the simulation process. The `get_thresh_simstat` function will take a few minutes to run, varying depending on the size of the data, the processing power of the computer, and the value of `nreps`. The progress can be tracked visually.
+
+\
+
+**NOTE:** The thresholds for three ancestral populations are more stringent than the thresholds for ancestral populations. This reflects the increased number of hypothesis tests being performed when `K = 3` as well as the different distributions of admixture proportions in the two populations.
 
 \
 
@@ -472,56 +476,56 @@ To return the test statistic threshold rather than the *p*-value threshold, incl
 ```{r}
 ## two ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 6, map = example_map, props = example_props, 
+get_thresh_simstat(g = 5.97, map = example_map, props = example_props, 
                    nreps = 50, type = "stat")
 ```
 
 ```{r}
 ## three ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, 
+get_thresh_simstat(g = 9.96, map = example_map, props = example_props_K3, 
                    nreps = 50, type = "stat")
 ```
 
 \
 
-The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate from the default of 0.05 to a new rate of 0.01. `alpha` can be any desired family-wise error rate within the range [0,1]:
+The following code with the inclusion of `alpha = 0.01` changes the desired family-wise error rate from the default of 0.05 to a new rate of 0.01. Theoretically, `alpha` could be any desired family-wise error rate within the range (0,1], but typical family-wise error rates tend to be $\leq$ 0.05, depending on the study:
 
 ```{r}
 ## two ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 6, map = example_map, props = example_props, 
+get_thresh_simstat(g = 5.97, map = example_map, props = example_props, 
                    nreps = 50, alpha = 0.01)
 ```
 
 ```{r}
 ## three ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, 
+get_thresh_simstat(g = 9.96, map = example_map, props = example_props_K3, 
                    nreps = 50, alpha = 0.01)
 ```
 
 \
 
-By default, `get_thresh_simstat` uses the package Rcpp developed by [RcppCore](https://www.rcpp.org/) to speed up the Test Statistic simulation process by using C++ code rather than R code. If you would like to use the slower R code version instead, include the argument `method = "r"`:
+As of v0.2.0, `get_thresh_simstat` uses the `Rcpp` package developed by [RcppCore](https://www.rcpp.org/) to speed up the Test Statistic Simulation process by using C++ code rather than R code within the function. If you would like to use the v0.1.0 R code version instead, include the argument `method = "r"`:
 
 ```{r}
 ## two ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 10, map = example_map, props = example_props, 
+get_thresh_simstat(g = 5.97, map = example_map, props = example_props, 
                    nreps = 50, method = "r")
 ```
 
 ```{r}
 ## three ancestral populations ##
 set.seed(1) # set seed for reproducibility
-get_thresh_simstat(g = 10, map = example_map, props = example_props_K3, 
+get_thresh_simstat(g = 9.96, map = example_map, props = example_props_K3, 
                    nreps = 50, method = "r")
 ```
 
 \
 
-**NOTE:** The thresholds for three ancestral populations are more stringent than the thresholds for ancestral populations. This reflects the increased number of hypothesis tests being performed when `K = 3` as well as the different distributions of admixture proportions in the two populations.
+**NOTE:** Choosing to use the v0.1.0 `method = "r"` argument will result in a longer computation time compared to the v0.2.0 `method = "cpp"` argument. The resulting threshold and confidence interval will be identical regardless of which method is selected. 
 
 \
 
@@ -534,6 +538,30 @@ sessionInfo()
 
 # Author Contributions
 
-# References
+> still need to write, Kelsey?
 
+\
 
+# *STEAM* References
+
+> couldn't figure out how to cite https://github.com/UW-GAC/analysis_pipeline used in section 4.1.2 [Calculating Observed Local Ancestry Correlation using *STEAM*]
+
+Barrett T, Dowle M, Srinivasan A, Gorecki J, Chirico M, Hocking T (2024). _data.table: Extension of `data.frame`_. R package version 1.15.4, <https://CRAN.R-project.org/package=data.table>.
+
+Bonferroni, C. (1936). Teoria statistica delle classi e calcolo delle probabilita. *Pubblicazioni del R istituto superiore di scienze economiche e commericiali di firenze, 8*, 3-62.
+
+Eddelbuettel D, Francois R, Allaire J, Ushey K, Kou Q, Russell N, Ucar I, Bates D, Chambers J (2024). *Rcpp: Seamless R and C++ Integration*. R package version 1.0.12, https://CRAN.R-project.org/package=Rcpp.
+
+Grinde, K. E., Brown, L. A., Reiner, A. P., Thornton, T. A., & Browning, S. R. (2019). Genome-wide significance thresholds for admixture mapping studies. *The American Journal of Human Genetics, 104*(3), 454-465. https://doi.org/10.1016/j.ajhg.2019.01.008.
+
+Jannot, A. S., Ehret, G., & Perneger, T. (2015). P< 5× 10− 8 has emerged as a standard of statistical significance for genome-wide association studies. *Journal of clinical epidemiology, 68*(4), 460-465.
+
+Maples, B. K., Gravel, S., Kenny, E. E., & Bustamante, C. D. (2013). RFMix: a discriminative modeling approach for rapid and robust local-ancestry inference. *American journal of human genetics, 93*(2), 278–288. https://doi.org/10.1016/j.ajhg.2013.06.020
+
+original S, StatLib f, Leisch. bRTRpbF (2019). _bootstrap: Functions for the Book "An Introduction to the Bootstrap"_. R package version 2019.6, <https://CRAN.R-project.org/package=bootstrap>.
+
+Wood, S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman and Hall/CRC.
+
+Xiuwen Zheng, David Levine, Jess Shen, Stephanie M. Gogarten, Cathy Laurie, Bruce S. Weir. A High-performance Computing Toolset for Relatedness and Principal Component Analysis of SNP Data. Bioinformatics 2012; doi: 10.1093/bioinformatics/bts606
+
+Xiuwen Zheng, Stephanie M. Gogarten, Michael Lawrence, Adrienne Stilp, Matthew P. Conomos, Bruce S. Weir, Cathy Laurie, David Levine. SeqArray -- A storage-efficient high-performance data format for WGS variant calls. Bioinformatics 2017; doi: 10.1093/bioinformatics/btx145
