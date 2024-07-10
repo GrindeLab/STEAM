@@ -25,6 +25,8 @@ library(STEAM)
 
 > Should we update README file for v0.2.0 release on [GitHub](https://github.com/GrindeLab/STEAM) to link to vignette instead of what it currently is?* 
 
+> Kelsey: add more information/resources to [Required Data Format] section.
+
 > [Author Contributions] section needs to be written. Kelsey, do you want to write it? Or have ideas of what it should say?
 
 > Do the citations look fine? [*STEAM* References] (I changed the name of References section, having it be called "References" automatically created an appendix inside of it and I couldn't figure out how to get rid of it).
