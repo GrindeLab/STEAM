@@ -41,11 +41,14 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
 
   
   # simulate test stats nreps times
-  handlers(global = TRUE, default = "txtprogressbar")
+  handlers(global = TRUE)
+  handlers(handler_txtprogressbar())
+
+  p <- progressor(steps = nreps)
+  max_stats <- numeric(nreps)
+  
   with_progress({
    
-    p <- progressr::progressor(steps = nreps)
-    max_stats <- numeric(nreps)
     for (i in 1:nreps) {
       p()
       if (method == "cpp") {
