@@ -41,9 +41,9 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
 
   
   # simulate test stats nreps times
-
+  handlers(global = TRUE, default = "txtprogressbar")
   with_progress({
-    handlers(global = TRUE, default = "txtprogressbar")
+   
     p <- progressr::progressor(steps = nreps)
     max_stats <- numeric(nreps)
     for (i in 1:nreps) {
