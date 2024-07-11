@@ -42,7 +42,7 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   
   # simulate test stats nreps times
   
-  pb <- progress_bar$new(total = nreps)
+  pb <- progress_bar$new(total = nreps, clear = FALSE)
   
   max_stats <- numeric(nreps)
   for (i in 1:nreps) {
@@ -55,6 +55,9 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
         pb$tick()
       }
     }
+  }
+  if (!pb$finished) {
+    pb$finish()
   }
   
   message("Loading...")
