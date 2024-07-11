@@ -41,29 +41,23 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
 
   
   # simulate test stats nreps times
-  handlers(global = TRUE)
-  handlers(handler_txtprogressbar())
-
-  p <- progressor(steps = nreps)
-  max_stats <- numeric(nreps)
   
-  with_progress({
-   
-    for (i in 1:nreps) {
-      p()
-      if (method == "cpp") {
-        max_stats[i] <- simstatSingle(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
-      } else {
-        max_stats[i] <- simstat_once(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
-      }
-      flush.console()
+  pb <- progress_bar$new(total = 100)
+  
+  max_stats <- numeric(nreps)
+  pb$tick(0)
+  for (i in 1:nreps) {
+    pb$tick()
+    if (method == "cpp") {
+      max_stats[i] <- simstatSingle(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
+    } else {
+      max_stats[i] <- simstat_once(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
     }
     
-  })
- 
+  }
   
-  message("loading...")
-  
+  message("Loading...")
+    
 
   # get upper alpha quantile
   zstar <- upper_alpha(max_stats, alpha)
@@ -88,3 +82,9 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   }
   return(list(threshold = thresh, ci = thresh_ci))
 }
+
+
+
+
+
+ 
