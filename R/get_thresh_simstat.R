@@ -47,11 +47,12 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   max_stats <- numeric(nreps)
   pb$tick(0)
   for (i in 1:nreps) {
-    pb$tick()
     if (method == "cpp") {
       max_stats[i] <- simstatSingle(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
+      pb$tick()
     } else {
       max_stats[i] <- simstat_once(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L)
+      pb$tick()
     }
     
   }
