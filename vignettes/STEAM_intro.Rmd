@@ -37,6 +37,8 @@ library(STEAM)
 
 > Keep/delete progress bar paragraph in [Test Statistic Simulation (get_thresh_simstat)] section.
 
+> nlxb() little blurb in [Estimating g (get_g)] section? (low priority)
+
 # Introduction
 
 *STEAM* (Significance Threshold Estimation for Admixture Mapping) is an R package for estimating genome-wide significance thresholds for admixture mapping studies. The theoretical results implemented in the package are proposed in the following article:
