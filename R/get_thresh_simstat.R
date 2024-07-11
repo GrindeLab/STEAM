@@ -42,7 +42,7 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   
   # simulate test stats nreps times
   
-  pb <- progress_bar$new(total = 100)
+  pb <- progress_bar$new(total = nreps)
   
   max_stats <- numeric(nreps)
   pb$tick(0)
