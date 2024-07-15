@@ -268,7 +268,7 @@ get_g(example_corr_K3)
 
 \
 
-In the v0.3.0 release of the *STEAM* package, we changed the `get_g` function to use the `nlxb` function from the `nlsr` R package to perform the non-linear least squares optimization rather than the `nls` function from the `stats` R package. This change will reduce the frequency of the "singular gradient" error message that some users experienced with the previous version of the `get_g` function when using *STEAM* with populations with more than three ancestral populations. 
+Sydney's blurb about STEAM from meeting notes 7/15 
 
 \
 
