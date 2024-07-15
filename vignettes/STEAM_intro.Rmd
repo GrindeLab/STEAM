@@ -23,7 +23,7 @@ library(STEAM)
 
 > **THINGS STILL NEEDING ATTENTION!:**
 
-> Should we update README file for v0.2.0 release on [GitHub](https://github.com/GrindeLab/STEAM) to link to vignette instead of what it currently is?* 
+> Should we update README file for v0.2.0 release on [GitHub](https://github.com/GrindeLab/STEAM) to link to vignette instead of what it currently is?
 
 > Kelsey: add more information/resources to [Required Data Format] section.
 
@@ -265,6 +265,10 @@ get_g(example_corr_K3)
 \
 
 **NOTE:** In these examples, we simulated local ancestry correlation for admixed populations with `g = 6` (2 ancestral populations) and `g = 10` (3 ancestral populations). In both cases, the estimated g turns out very close to the truth: 5.97 and 9.96, respectively.
+
+\
+
+In the v0.3.0 release of the *STEAM* package, we changed the `get_g` function to use the `nlxb` function from the `nlsr` R package to perform the non-linear least squares optimization rather than the `nls` function from the `stats` R package. This change will reduce the frequency of the "singular gradient" error message that some users experienced with the previous version of the `get_g` function when using *STEAM* with populations with more than three ancestral populations. 
 
 \
 
