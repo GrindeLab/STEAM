@@ -34,7 +34,7 @@ get_thresh_analytic <- function(g, map, alpha = 0.05, type="pval", searchint = c
   Z <- uniroot(OU_approx, interval = searchint, beta = 0.01*g, Delta = delt, length = L, chr = nchr, center = alpha, test = 'two-sided')$root
   # if type = 'pval', return pval instead
   if(type=='pval'){
-    p <- 2*pnorm(Z,lower.tail=F)
+    p <- 2*pnorm(Z,lower.tail=FALSE)
     return(p)
   } else if(type=='stat'){
     return(Z)
