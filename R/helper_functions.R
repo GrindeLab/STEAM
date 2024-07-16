@@ -25,9 +25,9 @@ get_dist <- function(s1, s2, gen.map){
 # get correlation for one pair of SNPs
 get_corr <- function(s1, s2, afr, eur, nam){
   # load ancestries at SNPs s1 and s2
-  afr.anc <- snpgdsGetGeno(afr, snp.id = c(s1,s2), with.id = TRUE, verbose=F)
-  eur.anc <- snpgdsGetGeno(eur, snp.id = c(s1,s2), with.id = TRUE, verbose=F)
-  nam.anc <- snpgdsGetGeno(nam, snp.id = c(s1,s2), with.id = TRUE, verbose=F)
+  afr.anc <- snpgdsGetGeno(afr, snp.id = c(s1,s2), with.id = TRUE, verbose=FALSE)
+  eur.anc <- snpgdsGetGeno(eur, snp.id = c(s1,s2), with.id = TRUE, verbose=FALSE)
+  nam.anc <- snpgdsGetGeno(nam, snp.id = c(s1,s2), with.id = TRUE, verbose=FALSE)
   # get indices for each SNP (make sure they're in order we expected)
   e1 <- which(eur.anc$snp.id==s1); e2 <- which(eur.anc$snp.id == s2)
   a1 <- which(afr.anc$snp.id==s1); a2 <- which(afr.anc$snp.id == s2)

@@ -4,8 +4,15 @@
 \alias{get_thresh_simstat}
 \title{Significance Threshold Estimation for Admixture Mapping using Test Statistic Simulation}
 \usage{
-get_thresh_simstat(g, map, props, nreps = 10000, alpha = 0.05,
-  type = "pval")
+get_thresh_simstat(
+  g,
+  map,
+  props,
+  nreps = 10000,
+  alpha = 0.05,
+  type = "pval",
+  method = "cpp"
+)
 }
 \arguments{
 \item{g}{the generations since admixture.}
@@ -19,6 +26,8 @@ get_thresh_simstat(g, map, props, nreps = 10000, alpha = 0.05,
 \item{alpha}{the level for family-wise error rate control; default is 0.05.}
 
 \item{type}{the type of threshold that should be returned: \code{"stat"} for test statistic or \code{"pval"} for p-value; defaults to pval.}
+
+\item{method}{the method used to simulate test stat: \code{"cpp"} for cpp (using rcpp, 80 percent faster approximately) or \code{"r"} for r.}
 }
 \value{
 A single number indicating the estimated significance threshold (either test statistic or p-value).

@@ -11,6 +11,7 @@
 #' @param nreps the number of repetitions for the simulation study; default is 10000.
 #' @param alpha the level for family-wise error rate control; default is 0.05.
 #' @param type the type of threshold that should be returned: \code{"stat"} for test statistic or \code{"pval"} for p-value; defaults to pval.
+#' @param method the method used to simulate test stat: \code{"cpp"} for cpp (using rcpp, 80 percent faster approximately) or \code{"r"} for r.
 #'
 #' @return A single number indicating the estimated significance threshold (either test statistic or p-value).
 #'
@@ -22,7 +23,7 @@
 #'
 #' @export
 
-get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pval"){
+get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pval", method = "cpp"){
   # get distances between adjacent markers
   dlt <- c(0,get_deltas(map)) # length m
 
@@ -30,13 +31,17 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
   ab <- get_ab(dlt,g)
 
   # get average admixture proportions
-  avg_props <- apply(props,2,mean,na.rm=T)
+  avg_props <- apply(props,2,mean,na.rm=TRUE)
 
   # calculate the matrix L
   L <- get_L(avg_props) # could condense with calculating avg
 
   # simulate test stats nreps times
-  max_stats <- replicate(nreps, simstat_once(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L))
+  if (method == "cpp"){
+    max_stats <- replicate(nreps, simstatSingle(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L))
+  } else {
+    max_stats <- replicate(nreps, simstat_once(m = nrow(map), K = ncol(props), as = ab$a, bs = ab$b, L = L))
+  }
 
   # get upper alpha quantile
   zstar <- upper_alpha(max_stats, alpha)
@@ -54,8 +59,8 @@ get_thresh_simstat <- function(g, map, props, nreps=10000, alpha=0.05, type="pva
     thresh <- zstar
     thresh_ci <- z_ci
   } else if(type == "pval"){
-    thresh <- 2 * pnorm(zstar, lower.tail = F)
-    thresh_ci <- 2 * pnorm(z_ci, lower.tail = F)
+    thresh <- 2 * pnorm(zstar, lower.tail = FALSE)
+    thresh_ci <- 2 * pnorm(z_ci, lower.tail = FALSE)
   } else{
     cat("Please specify type = 'stat' or type = 'pval' \n")
   }

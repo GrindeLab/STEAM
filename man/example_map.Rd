@@ -3,14 +3,16 @@
 \name{example_map}
 \alias{example_map}
 \title{Example map file}
-\format{Data frame should have m rows (m = no. markers) and
+\format{
+Data frame should have m rows (m = no. markers) and
   as many columns as desired, but at minimum must contain
   two columns named 'cM' and 'chr' which contain the genetic
   positions (in centimorgans) and chromosome numbers, respectively,
-  for each marker.}
+  for each marker.
+}
 \source{
 Toy example generated with command
-  \code{ data.frame(cM = rep(seq(0.2, 160, 0.2), times = 22), chr = rep(1:22, each = 800))}
+  \code{data.frame(cM = rep(seq(0.2, 160, 0.2), times = 22), chr = rep(1:22, each = 800))}
 }
 \description{
 Data frame containing genetic position (in cM) and chromosome

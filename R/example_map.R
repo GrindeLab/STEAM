@@ -10,6 +10,6 @@
 #'   for each marker.
 #'
 #' @source Toy example generated with command
-#'   \code{ data.frame(cM = rep(seq(0.2, 160, 0.2), times = 22), chr = rep(1:22, each = 800))}
+#'   \code{data.frame(cM = rep(seq(0.2, 160, 0.2), times = 22), chr = rep(1:22, each = 800))}
 #' @name example_map
 NULL

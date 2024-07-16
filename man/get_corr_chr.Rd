@@ -4,8 +4,15 @@
 \alias{get_corr_chr}
 \title{Calculate Correlation in Local Ancestry (K = 3)}
 \usage{
-get_corr_chr(chrom, binsize = 0.5, map, pop1.gds, pop2.gds, pop3.gds,
-  verbose = TRUE)
+get_corr_chr(
+  chrom,
+  binsize = 0.5,
+  map,
+  pop1.gds,
+  pop2.gds,
+  pop3.gds,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{chrom}{chromosome number that you are analyzing}
@@ -31,5 +38,5 @@ for a single chromosome. Code is currently only applicable to
 admixed populations with three ancestral populations.
 }
 \seealso{
-\code{\link[STEAM]{get_g}} and \code{\link[STEAM]{combine_corr_chr}}
+\code{\link[STEAMcpp]{get_g}} and \code{\link[STEAMcpp]{combine_corr_chr}}
 }

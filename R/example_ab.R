@@ -9,6 +9,6 @@
 #'   (m = no. markers).
 #'
 #' @source Toy example generated with command
-#'   \code{get_ab(get_deltas(example_map), g = 6)}
+#'   \code{example_ab <- get_ab(get_deltas(example_map), g = 6)}
 #' @name example_ab
 NULL

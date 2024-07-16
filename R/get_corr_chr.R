@@ -21,7 +21,7 @@
 #'
 #' @importFrom stats cor
 #'
-#' @seealso \code{\link[STEAM]{get_g}} and \code{\link[STEAM]{combine_corr_chr}}
+#' @seealso \code{\link[STEAMcpp]{get_g}} and \code{\link[STEAMcpp]{combine_corr_chr}}
 #'
 #' @export
 get_corr_chr <- function(chrom, binsize = 0.5, map, pop1.gds, pop2.gds, pop3.gds, verbose = TRUE){
@@ -45,8 +45,8 @@ get_corr_chr <- function(chrom, binsize = 0.5, map, pop1.gds, pop2.gds, pop3.gds
 
   # keep 20 random pairs of SNPs per bin (or keep all pairs if < 20 in bin)
   snps.dt[, pair := paste0(snp1,'_',snp2)]
-  selected <- snps.dt[, .(sample(pair, size = min(20, .N), replace = FALSE)),
-                      by = .(bin)]
+  selected <- snps.dt[, list(sample(pair, size = min(20, .N), replace = FALSE)),
+                      by = list(bin)]
   snps.dt <- snps.dt[pair %in% selected$V1]
   snps.dt$pair <- NULL # remove pair info
 
